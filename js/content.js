@@ -7,7 +7,7 @@ window.CONTENT = [
     title: "AI Native Campus로의 전환",
     transition: "fade",
     art: "radial-gradient(circle at 30% 25%, rgba(79,124,255,0.5), transparent 60%), radial-gradient(circle at 80% 75%, rgba(0,229,255,0.3), transparent 55%)",
-    notes: "발표 첫인상. 캠퍼스 영상 위 타이틀 리빌 후 한 템포 쉬고, 거버닝 카피(스텝2)로 진행. 'AI를 도입하는 대학에서, AI로 태어나는 대학으로'를 힘 있게 낭독.",
+    notes: "발표 첫인상. 캠퍼스 영상 위 타이틀 리빌과 거버닝 카피가 자동으로 이어짐. 'AI를 도입하는 대학에서, AI로 태어나는 대학으로'를 힘 있게 낭독.",
   },
   {
     id: "context",
@@ -15,7 +15,7 @@ window.CONTENT = [
     title: "AI는 이미 학습과 행정의 기본 도구가 되었다",
     transition: "blur-fade",
     art: "linear-gradient(100deg, rgba(26,29,38,0.9) 0 50%, rgba(20,34,77,0.9) 50% 100%)",
-    notes: "금지의 시대→권장의 시대 인식 전환. 마우스를 좌우로 움직이며 Before/After를 보여줄 것. 스텝3에서 학습·연구·행정·업무 4개 칩 강조.",
+    notes: "금지의 시대→권장의 시대 인식 전환. 마우스를 좌우로 움직이며 Before/After를 보여줄 것. 진행 입력 한 번이면 After 리빌과 학습·연구·행정·업무 칩이 자동으로 이어짐.",
   },
   {
     id: "voices",
@@ -31,7 +31,7 @@ window.CONTENT = [
     title: "대학이 안고 있는 복합적인 Pain Point",
     transition: "fade",
     art: "radial-gradient(circle at 25% 30%, rgba(255,92,122,0.35), transparent 55%), radial-gradient(circle at 75% 70%, rgba(79,124,255,0.3), transparent 55%)",
-    notes: "카드 4장을 하나씩 등장시키며 각 문제를 짚는다. 마지막 스텝에서 얽힘 라인이 그려지면 '문제는 서로 얽혀 있다' 강조 — 개별 해결이 불가능함을 설득.",
+    notes: "카드 4장이 자동으로 하나씩 등장하고 얽힘 라인이 이어서 그려짐. 각 문제를 짚은 뒤 '문제는 서로 얽혀 있다' 강조 — 개별 해결이 불가능함을 설득.",
   },
   {
     id: "solution",
@@ -47,6 +47,6 @@ window.CONTENT = [
     title: "AI 인프라 표준 프레임워크",
     transition: "zoom",
     art: "linear-gradient(160deg, rgba(39,87,214,0.35), rgba(124,92,255,0.25) 55%, rgba(12,138,95,0.25))",
-    notes: "①3개 트랙 → ②API/vGPU 커넥터+Slurm/K8s → ③내부 모듈 4종 → ④VDI → ⑤외부 LLM·전체 조망 순서로 설명. 조망 상태에서 트랙에 호버하면 자원 경로가 하이라이트됨.",
+    notes: "3개 트랙 → API/vGPU 커넥터+Slurm/K8s → 내부 모듈 4종 → VDI → 외부 LLM·전체 조망 순서로 자동 진행됨(약 8초). 조망 상태에서 트랙에 호버하면 자원 경로가 하이라이트됨.",
   },
 ];

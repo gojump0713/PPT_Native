@@ -61,18 +61,27 @@
     }
 
     function playIntro() {
+      // 자동 시퀀스: 타이틀 리빌 → (클릭 없이) 거버닝 카피가 자연스럽게 이어짐
       const tl = gsap.timeline();
       tl.fromTo(".s01-media", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" });
       const line1Count = $$(".s01-line", el)[0].querySelectorAll(".w > span").length;
       tl.to(wordSpans.slice(0, line1Count), { y: 0, duration: 0.6, stagger: 0.08, ease: "power3.out" }, 0.5);
       tl.to(wordSpans.slice(line1Count), { y: 0, duration: 0.6, stagger: 0.08, ease: "power3.out" }, 0.9);
-      tl.add(() => el.classList.add("title-glow"), 2.2);
+      tl.to(".s01-title", { y: -40, scale: 0.92, transformOrigin: "left bottom", duration: 0.9, ease: "power3.inOut" }, 2.1);
+      tl.to(governing, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 2.3);
+      tl.add(() => el.classList.add("title-glow"), 3.0);
       return tl;
+    }
+    function setEndState() {
+      wordSpans.forEach((s) => (s.style.transform = "translateY(0)"));
+      gsap.set(".s01-title", { y: -40, scale: 0.92, transformOrigin: "left bottom" });
+      gsap.set(governing, { opacity: 1 });
+      el.classList.add("title-glow");
     }
 
     SCENES.opening = {
       el,
-      steps: 2,
+      steps: 1,
       enter(step) {
         // 영상 재생 시도 → 차단/부재 시 포스터 폴백 (S01-INT-03)
         if (!simple()) {
@@ -97,8 +106,7 @@
           el.classList.add("no-video");
         }
         if (!introPlayed && !simple()) { playIntro(); introPlayed = true; }
-        else wordSpans.forEach((s) => (s.style.transform = "translateY(0)"));
-        this.setStep(step, 1);
+        else setEndState();
       },
       leave() {
         video.pause();                                    // S01-INT-04
@@ -106,15 +114,7 @@
         cancelAnimationFrame(parallaxRAF);
         document.getElementById("stage").removeEventListener("mousemove", onMouse);
       },
-      setStep(i) {
-        if (i >= 1) {
-          gsap.to(governing, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" });
-          gsap.to(".s01-title", { y: -40, scale: 0.92, transformOrigin: "left bottom", duration: 0.9, ease: "power3.inOut" });
-        } else {
-          gsap.to(governing, { opacity: 0, duration: 0.4 });
-          gsap.to(".s01-title", { y: 0, scale: 1, duration: 0.6, ease: "power3.inOut" });
-        }
-      },
+      setStep() { /* 자동 시퀀스 — 스텝 없음 */ },
     };
   })();
 
@@ -125,8 +125,8 @@
     const after = $(".s02-after", el);
     const divider = $(".s02-divider", el);
     const chips = $$(".chip", el);
-    const BASE = [88, 35, 35];             // 스텝별 경계선 기본 위치 (%)
-    let step = 0, pos = 88, targetPos = 88, tracking = false, raf = 0, hovering = false;
+    const BASE = [88, 35];                 // 스텝별 경계선 기본 위치 (%)
+    let step = 0, pos = 88, targetPos = 88, raf = 0, hovering = false, chipsCall = null;
 
     // 실제 이미지가 있으면 교체 (없으면 그라디언트 플레이스홀더, 실패 시 재시도)
     loadBg($(".s02-before", el), "assets/images/before.webp");
@@ -160,14 +160,27 @@
       chip.addEventListener("mouseleave", () => gsap.to(after, { filter: "brightness(1)", duration: 0.3 }));
     });
 
+    function showChips() {
+      gsap.set(".s02-chips", { visibility: "visible" });
+      gsap.to(".s02-chips", { opacity: 1, duration: 0.3 });
+      gsap.fromTo(chips, { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, stagger: 0.14, ease: "back.out(1.6)" });
+      gsap.fromTo(".s02-title .hl", { textShadow: "0 0 0 rgba(0,229,255,0)" },
+        { textShadow: "0 0 28px rgba(0,229,255,0.45)", duration: 0.8 });
+    }
+    function hideChips() {
+      if (chipsCall) { chipsCall.kill(); chipsCall = null; }
+      gsap.to(".s02-chips", { opacity: 0, duration: 0.3, onComplete: () => gsap.set(".s02-chips", { visibility: "hidden" }) });
+    }
+
     SCENES.context = {
       el,
-      steps: 3,
+      steps: 2,
       enter(s) {
         raf = requestAnimationFrame(loop);
         this.setStep(s, 1);
       },
-      leave() { cancelAnimationFrame(raf); },
+      leave() { cancelAnimationFrame(raf); if (chipsCall) chipsCall.kill(); },
       setStep(i, dir) {
         step = i;
         if (!hovering) {
@@ -176,15 +189,11 @@
             onUpdate() { targetPos = this.targets()[0].v; },
           });
         } else targetPos = BASE[i];
-        if (i >= 2) {
-          gsap.set(".s02-chips", { visibility: "visible" });
-          gsap.to(".s02-chips", { opacity: 1, duration: 0.3 });
-          gsap.fromTo(chips, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, stagger: 0.1, ease: "back.out(1.6)" });
-          gsap.fromTo(".s02-title .hl", { textShadow: "0 0 0 rgba(0,229,255,0)" },
-            { textShadow: "0 0 28px rgba(0,229,255,0.45)", duration: 0.8 });
-        } else {
-          gsap.to(".s02-chips", { opacity: 0, duration: 0.3, onComplete: () => gsap.set(".s02-chips", { visibility: "hidden" }) });
-        }
+        if (i >= 1) {
+          // After 리빌 후 키워드 칩이 클릭 없이 연이어 등장
+          if (chipsCall) chipsCall.kill();
+          chipsCall = gsap.delayedCall(dir > 0 ? 1.2 : 0.2, showChips);
+        } else hideChips();
       },
     };
   })();
@@ -418,31 +427,35 @@
     function hideCard(i) {
       gsap.to(cards[i], { opacity: 0, y: 40, duration: 0.35, onComplete: () => gsap.set(cards[i], { visibility: "hidden" }) });
     }
-    function drawTangle(on) {
+    function drawTangle(on, instant) {
       el.classList.toggle("tangled", on);
       paths.forEach((p, i) => {
         const len = p.getTotalLength();
+        if (instant) { p.style.strokeDashoffset = on ? 0 : len; return; }
         if (on) gsap.to(p, { strokeDashoffset: 0, duration: 1.6, delay: i * 0.12, ease: "power2.inOut" });
         else gsap.to(p, { strokeDashoffset: len, duration: 0.5 });
       });
     }
 
+    let s04Played = false, s04TL = null;
     SCENES.painpoints = {
       el,
-      steps: 5, // 카드① / ② / ③ / ④ / 얽힘
-      enter(s) { this.setStep(s, 1, true); },
-      leave() {},
-      setStep(i, dir, instantAll) {
-        const pair = window.CONFIG.s04PairCards;
-        const visibleCount = Math.min(4, pair ? (i + 1) * 2 : i + 1);
-        cards.forEach((_, c) => {
-          const shouldShow = c < visibleCount;
-          const isShown = cards[c].style.visibility === "visible";
-          if (shouldShow && !isShown) showCard(c, instantAll || dir < 0);
-          else if (!shouldShow && isShown) hideCard(c);
-        });
-        drawTangle(i >= 4);
+      steps: 1, // 자동 시퀀스: 카드①→②→③→④→얽힘 라인
+      enter() {
+        if (s04Played || simple()) {
+          cards.forEach((c) => gsap.set(c, { visibility: "visible", opacity: 1, y: 0 }));
+          $$(".s04-icon .draw", el).forEach((s) => { s.style.strokeDasharray = "none"; s.style.strokeDashoffset = "0"; });
+          drawTangle(true, true);
+          s04Played = true;
+          return;
+        }
+        s04Played = true;
+        s04TL = gsap.timeline();
+        cards.forEach((_, i) => s04TL.add(() => showCard(i), i * 0.8));
+        s04TL.add(() => drawTangle(true), cards.length * 0.8 + 0.4);
       },
+      leave() { if (s04TL) s04TL.kill(); },
+      setStep() { /* 자동 시퀀스 — 스텝 없음 */ },
     };
   })();
 
@@ -686,12 +699,17 @@
       }
     }
 
+    let s06TL = null;
     SCENES.architecture = {
       el,
-      steps: 5,
-      enter(s) { applyStep(s, 1, s > 0); },
-      leave() { if (flow) flow.stop(); tooltip.hidden = true; }, // S06-INT-05
-      setStep(i, dir) { applyStep(i, dir, false); },
+      steps: 1, // 자동 시퀀스: 트랙 → 커넥터+프레임워크 → 모듈 → VDI → 외부 LLM·조망
+      enter() {
+        applyStep(0, 1, false);
+        s06TL = gsap.timeline();
+        [1, 2, 3, 4].forEach((st, k) => s06TL.add(() => applyStep(st, 1, false), 1.7 + k * 1.7));
+      },
+      leave() { if (s06TL) s06TL.kill(); if (flow) flow.stop(); tooltip.hidden = true; }, // S06-INT-05
+      setStep() { /* 자동 시퀀스 — 스텝 없음 */ },
     };
   })();
 

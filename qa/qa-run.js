@@ -49,11 +49,15 @@ const server = http.createServer((req, res) => {
     await page.screenshot({ path: path.join(SHOT_DIR, `${String(shot++).padStart(2, "0")}-${name}-${W}x${H}.png`) });
   };
 
+  // 자동 시퀀스 슬라이드는 최종 상태까지 대기
+  const WAITS = { opening: 4500, painpoints: 6500, architecture: 10500 };
   for (let i = 0; i < plan.length; i++) {
     for (let st = 0; st < plan[i].steps; st++) {
       if (!(i === 0 && st === 0)) {
         await page.keyboard.press("ArrowRight");
-        await new Promise((r) => setTimeout(r, 2300)); // 전환·스텝 연출 대기
+        await new Promise((r) => setTimeout(r, st === 0 ? (WAITS[plan[i].id] || 2300) : 2300));
+      } else {
+        await new Promise((r) => setTimeout(r, WAITS[plan[i].id] ? WAITS[plan[i].id] - 3200 : 0));
       }
       await snap(`${plan[i].id}-s${st}`);
     }
