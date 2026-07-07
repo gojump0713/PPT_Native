@@ -10,6 +10,19 @@
   const simple = () => window.PERF.simple();
   const lerp = (a, b, t) => a + (b - a) * t;
 
+  /* 배경 이미지 로더 — 일시적 네트워크/SSL 오류 대비 3회 재시도 (캐시 버스터) */
+  function loadBg(node, url, onOk, attempt = 0) {
+    const img = new Image();
+    img.onload = () => {
+      node.style.backgroundImage = `url(${img.src})`;
+      if (onOk) onOk();
+    };
+    img.onerror = () => {
+      if (attempt < 3) setTimeout(() => loadBg(node, url, onOk, attempt + 1), 1500 * (attempt + 1));
+    };
+    img.src = url + (attempt ? `?retry=${attempt}` : "");
+  }
+
   /* ══════════════ S01 · Opening / Hero ══════════════ */
   (function () {
     const el = $("#opening");
@@ -30,13 +43,8 @@
     });
     const wordSpans = $$(".s01-line .w > span", el);
 
-    // 포스터 이미지 존재 시 적용 (없으면 CSS 그라디언트 유지)
-    const posterImg = new Image();
-    posterImg.onload = () => {
-      posterDiv.style.backgroundImage = `url(${posterImg.src})`;
-      el.classList.add("has-poster");
-    };
-    posterImg.src = "assets/images/hero-poster.webp";
+    // 포스터 이미지 존재 시 적용 (없으면 CSS 그라디언트 유지, 실패 시 재시도)
+    loadBg(posterDiv, "assets/images/hero-poster.webp", () => el.classList.add("has-poster"));
 
     function onMouse(e) {
       const r = document.getElementById("stage").getBoundingClientRect();
@@ -111,12 +119,9 @@
     const BASE = [88, 35, 35];             // 스텝별 경계선 기본 위치 (%)
     let step = 0, pos = 88, targetPos = 88, tracking = false, raf = 0, hovering = false;
 
-    // 실제 이미지가 있으면 교체 (없으면 그라디언트 플레이스홀더)
-    [["before", $(".s02-before", el)], ["after", after]].forEach(([name, node]) => {
-      const img = new Image();
-      img.onload = () => (node.style.backgroundImage = `url(${img.src})`);
-      img.src = `assets/images/${name}.webp`;
-    });
+    // 실제 이미지가 있으면 교체 (없으면 그라디언트 플레이스홀더, 실패 시 재시도)
+    loadBg($(".s02-before", el), "assets/images/before.webp");
+    loadBg(after, "assets/images/after.webp");
 
     function apply(p) {
       pos = p;
@@ -182,6 +187,9 @@
     const cards = $$(".s03-card", el);
     const conclusion = $(".s03-conclusion", el);
     const RADIUS = 520, STEP_ANGLE = 120;
+    // 아바타 이미지 재시도 로드 (CSS url() 실패 대비)
+    ["student", "professor", "operator"].forEach((p) =>
+      loadBg($(".s03-avatar-" + p, el), `assets/images/persona-${p}.webp`));
     const state = { angle: 0 };
     let autoTimer = null, resumeTimer = null, entered = false, conclusionShown = false;
     let persona = 0; // 전면 페르소나 인덱스 (0 학생, 1 교수, 2 운영자)
