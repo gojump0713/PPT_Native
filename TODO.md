@@ -52,6 +52,21 @@
 - [x] 신규 전환 3종 (fly / wipe / particle), Overview 16장 4열 확장
 - [x] 전 16장 QA 콘솔 에러 0건
 
+## 03덱 — 교육 플랫폼 (5장, 03_기능명세서 v1.0)
+- [x] 슬라이드 17~21 마크업 (Tstation 챕터 3장 + CAS 챕터 2장)
+- [x] scenes3.js 씬 컨트롤러 5종 (T01~T05), scenes2 CHAPTER_SCENE/VIDEO_BG 공용화
+- [x] components3.css (bento-grid·IaC 폴백·hub-tabs 목업 스타일)
+- [x] T01/T04 챕터 타이틀 공통 패턴 재사용 (CHAPTER 04·05, Kinetic Reveal)
+- [x] T04 CAS 키워드 칩 5종 → 라인 연결(All-in-One 시각화, S04-AC-02 1.2s)
+- [x] T02 IaC 인포그래픽 구간 재생 + HTML 인포그래픽 폴백(S02-FBK-01) 병행, 자막 칩 교체
+- [x] T03 벤토 그리드 6카드 + 카드별 마이크로 데모 6종 + 좌상→우하 자동 시연(S03-INT-03)
+- [x] T05 허브+탭 목업 4종 + 자동 순회(1바퀴) + 공통 기반 배지 + 브릿지 Path Drawing
+- [x] content.js 메타데이터 5장 추가, config.iacSegments, index.html CSS/JS 링크
+- [x] 전 21장 QA 콘솔 JS 에러 0건 (미디어 404는 폴백으로 흡수)
+- [ ] **03덱 미디어 3종 생성** (MCP Kling/Higgsfield 인증 필요, K-13):
+      `tstation-loop.mp4`·`cas-loop.mp4` 배경 영상 + 포스터, `iac-seg-{a,b,c}.mp4` 인포그래픽
+- [ ] 미디어 탑재 후 재QA + 통합 리허설(총 62스텝 config 병합 옵션 검토)
+
 ## 후속 (선택)
 - [ ] 히어로·챕터 영상 1080p 업스케일 교체 (K-01·K-09)
 - [ ] S08 24h 타임라인 스크러버 (P1, K-11)

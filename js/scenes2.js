@@ -118,6 +118,10 @@
     };
   }
 
+  // 03덱 등 후속 덱에서 재사용 (CHP 공통 패턴)
+  window.CHAPTER_SCENE = chapterScene;
+  window.VIDEO_BG = videoBg;
+
   /* ══════ D01 · Dstation ══════ */
   S.dstation = chapterScene("dstation");
 

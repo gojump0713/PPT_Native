@@ -1,7 +1,7 @@
 /* config.js — 발표 설정 */
 window.CONFIG = {
   title: "AI Native Campus",
-  totalLabel: 6,
+  totalLabel: 21,
 
   // 모션 강도 (1 = 기본). reduced-motion·저사양 시 자동 무시
   motionScale: 1,
@@ -25,4 +25,8 @@ window.CONFIG = {
   // 휠 스텝 임계값
   wheelThreshold: 90,
   wheelCooldownMs: 550,
+
+  // S02 IaC 인포그래픽 구간 영상 (구간 A/B/C 개별 파일, 스텝 동기 재생 — scenes3.js)
+  // 파일 부재 시 error 이벤트로 자동 HTML 인포그래픽 폴백(S02-FBK-01) 전환
+  iacSegments: ["iac-seg-a.mp4", "iac-seg-b.mp4", "iac-seg-c.mp4"],
 };

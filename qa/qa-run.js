@@ -53,6 +53,7 @@ const server = http.createServer((req, res) => {
   const WAITS = {
     opening: 4500, painpoints: 6500, "architecture:1": 9500,
     dstation: 4200, estation: 4200, istation: 4200,
+    tstation: 4200, cas: 4200,
     "jeju-case:1": 7000,
   };
   for (let i = 0; i < plan.length; i++) {

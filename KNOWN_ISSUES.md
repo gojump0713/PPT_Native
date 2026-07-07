@@ -14,3 +14,5 @@
 | K-10 | S08 스케줄링 영상이 10초 (명세 권장 16~20초) — 낮/밤 구간이 각각 ~4.5초 | 구간 루프 반복 주기가 짧음 | 낮/밤 2구간 타임코드 운용은 명세대로 동작. 더 긴 영상 교체 시 `scenes2.js`의 SEG 상수만 수정 |
 | K-11 | S08 24h 타임라인 스크러버(P1)·S05 표 hover 체크 글로우 일부(P2) 미구현 | 스텝 전환만으로 명세 완결 (S08-AC-02 허용 범위) | 후속 고도화 항목으로 TODO에 기재 |
 | K-12 | S09 채팅 데모 스크립트는 연출용 placeholder | 실제 제주대 서비스 문안과 다름 | '연출된 예시' 캡션 병기(S09-AC-02). content 확정 시 `scenes2.js`의 DEMO_Q/DEMO_A 교체 |
+| K-13 | 03덱 미디어 3종 미생성 (`tstation-loop.mp4`·`cas-loop.mp4`·`iac-seg-{a,b,c}.mp4` + 포스터) | 17·20 챕터는 다크 배경, 18(Instant Setup)은 HTML 인포그래픽 폴백으로 구동 — 발표 메시지 전달은 완결(S02-AC-04·FBK-01) | MCP 영상 서비스(Kling/Higgsfield) 인증 후 생성 예정. 동일 파일명으로 `assets/videos`·`assets/images`에 배치하면 자동 반영. iac는 3구간 개별 파일(config.iacSegments) 또는 단일 영상+타임코드로 교체 가능 |
+| K-14 | 03덱 IaC 영상은 spec상 단일 18~24초 3구간 타임코드 운용이나, 구현은 구간별 개별 파일(`iac-seg-a/b/c.mp4`) 재생 방식 | 스텝별 구간 재생·역행 점프는 명세대로 동작(S02-INT-01) | 단일 영상 운용을 원하면 `scenes3.js`의 playSeg를 currentTime 시크 방식(S08 scheduling 참조)으로 전환 |
