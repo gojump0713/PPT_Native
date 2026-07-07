@@ -700,16 +700,25 @@
     }
 
     let s06TL = null;
+    function runRest(instant) {
+      // 스텝②: 커넥터+프레임워크 → 모듈 → VDI → 외부 LLM·조망을 자동 순차 재생
+      if (s06TL) s06TL.kill();
+      if (instant) { applyStep(4, 1, true); return; }
+      s06TL = gsap.timeline();
+      [1, 2, 3, 4].forEach((st, k) => s06TL.add(() => applyStep(st, 1, false), k * 1.7));
+    }
     SCENES.architecture = {
       el,
-      steps: 1, // 자동 시퀀스: 트랙 → 커넥터+프레임워크 → 모듈 → VDI → 외부 LLM·조망
-      enter() {
-        applyStep(0, 1, false);
-        s06TL = gsap.timeline();
-        [1, 2, 3, 4].forEach((st, k) => s06TL.add(() => applyStep(st, 1, false), 1.7 + k * 1.7));
+      steps: 2, // ① 트랙 3장 등장 → ② 나머지 모션 자동 순차 진행
+      enter(s) {
+        if (s >= 1) { applyStep(0, 1, true); runRest(true); }
+        else applyStep(0, 1, false);
       },
       leave() { if (s06TL) s06TL.kill(); if (flow) flow.stop(); tooltip.hidden = true; }, // S06-INT-05
-      setStep() { /* 자동 시퀀스 — 스텝 없음 */ },
+      setStep(i, dir) {
+        if (i >= 1) runRest(false);
+        else { if (s06TL) s06TL.kill(); applyStep(0, dir, false); }
+      },
     };
   })();
 
