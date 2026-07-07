@@ -50,7 +50,11 @@ const server = http.createServer((req, res) => {
   };
 
   // 자동 시퀀스 슬라이드는 최종 상태까지 대기 (키: "id" 진입 시, "id:스텝" 스텝 진행 시)
-  const WAITS = { opening: 4500, painpoints: 6500, "architecture:1": 9500 };
+  const WAITS = {
+    opening: 4500, painpoints: 6500, "architecture:1": 9500,
+    dstation: 4200, estation: 4200, istation: 4200,
+    "jeju-case:1": 7000,
+  };
   for (let i = 0; i < plan.length; i++) {
     for (let st = 0; st < plan[i].steps; st++) {
       if (!(i === 0 && st === 0)) {

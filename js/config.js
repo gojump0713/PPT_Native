@@ -19,6 +19,9 @@ window.CONFIG = {
   // 전환 시간 (초)
   transition: { normal: 0.8, chapter: 1.2 },
 
+  // 마지막 슬라이드 마지막 스텝에서 진행 입력 시 Overview 자동 오픈 (S10-INT-03)
+  openOverviewAtEnd: true,
+
   // 휠 스텝 임계값
   wheelThreshold: 90,
   wheelCooldownMs: 550,

@@ -4,15 +4,19 @@
   const grid = overlay.querySelector(".ov-grid");
   let open = false, focus = 0, cards = [];
 
+  const COLS = window.CONTENT.length > 9 ? 4 : 3;
+
   function build() {
     grid.innerHTML = "";
+    grid.style.setProperty("--ov-cols", COLS);
+    grid.style.setProperty("--ov-w", COLS === 4 ? "330px" : "380px");
     cards = window.CONTENT.map((s, i) => {
       const btn = document.createElement("button");
       btn.className = "ov-card";
       btn.style.setProperty("--ov-art", s.art);
       btn.innerHTML =
         `<span class="ov-hover-meta">#/${s.id}</span>
-         <span class="ov-num">${String(i + 1).padStart(2, "0")} / 06</span>
+         <span class="ov-num">${String(i + 1).padStart(2, "0")} / ${String(window.CONTENT.length).padStart(2, "0")}</span>
          <span class="ov-sec">${s.section}</span>
          <span class="ov-name">${s.title}</span>`;
       btn.addEventListener("click", () => {                 // O-06
@@ -55,7 +59,7 @@
     },
     key(e) {                                                // O-07
       if (!open) return false;
-      const col = 3;
+      const col = COLS;
       if (e.key === "ArrowRight") setFocus(focus + 1);
       else if (e.key === "ArrowLeft") setFocus(focus - 1);
       else if (e.key === "ArrowDown") setFocus(focus + col);

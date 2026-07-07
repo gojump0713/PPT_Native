@@ -78,6 +78,18 @@
           if (from) tl.to(from, { opacity: 0, scale: 0.92, duration: D * 0.8, ease: "power2.in", onComplete: () => gsap.set(from, { scale: 1 }) }, 0);
           tl.fromTo(to, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: D, ease: "power3.out", clearProps: "transform" }, 0.2);
           break;
+        case "fly": // T-07 Camera Fly-through 근사: 줌아웃 → 영상 공간 진입
+          if (from) tl.to(from, { opacity: 0, scale: 0.85, filter: "blur(6px)", duration: D, ease: "power2.in", onComplete: () => gsap.set(from, { scale: 1, filter: "none" }) }, 0);
+          tl.fromTo(to, { opacity: 0, scale: 1.3, filter: "blur(8px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.3, ease: "power3.out", clearProps: "transform,filter" }, 0.35);
+          break;
+        case "wipe": // T-03 Page Wipe: clip-path 와이프
+          if (from) tl.to(from, { opacity: 0, duration: D, ease: "power2.inOut" }, 0.15);
+          tl.fromTo(to, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: D, ease: "power3.inOut", clearProps: "clipPath" }, 0);
+          break;
+        case "particle": // T-08 근사: 디졸브 + 스케일
+          if (from) tl.to(from, { opacity: 0, scale: 1.04, filter: "blur(10px)", duration: D * 0.9, ease: "power2.in", onComplete: () => gsap.set(from, { scale: 1, filter: "none" }) }, 0);
+          tl.fromTo(to, { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: D, ease: "power2.out", clearProps: "transform" }, 0.3);
+          break;
         default: // fade (T-01)
           if (from) tl.to(from, { opacity: 0, duration: D * 0.7, ease: "power2.inOut" }, 0);
           tl.fromTo(to, { opacity: 0 }, { opacity: 1, duration: D, ease: "power2.inOut" }, 0.2);
@@ -97,6 +109,7 @@
       if (this.locked) return;
       if (this.step < this.totalSteps(this.current) - 1) this.applyStep(this.step + 1, 1);
       else if (this.current < slides.length - 1) this.goTo(this.current + 1, { step: 0 });
+      else if (window.CONFIG.openOverviewAtEnd && !window.OVERVIEW.isOpen) window.OVERVIEW.open(); // S10-INT-03
     },
     prev() {
       if (this.locked) return;
