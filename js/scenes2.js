@@ -162,7 +162,7 @@
     const mirror = $(".v2-mirror", el);
     const badge = $(".v2-badge", el);
     const tooltip = $(".v2-tooltip", el);
-    const busLen = bus.getTotalLength();
+    let busLen = bus.getTotalLength();
     bus.style.strokeDasharray = busLen;
     let demoDone = false;
 
@@ -172,6 +172,17 @@
       const r = node.getBoundingClientRect();
       const k = 1920 / sr.width;
       return { x: (r.left + r.width / 2 - sr.left) * k, y: (r.top + r.height / 2 - sr.top) * k };
+    }
+
+    // 칩 두 행이 세로 중앙 배치(flex)이므로 버스 라인 y를 실제 행 위치로 재계산
+    function layoutBus() {
+      const a = ctr($(".v2-where", el)), b = ctr($(".v2-device", el));
+      const y = Math.round((a.y + b.y) / 2);
+      const drawn = bus.style.strokeDashoffset === "0px" || bus.style.strokeDashoffset === "0";
+      bus.setAttribute("d", `M 900 ${y} H 1840`);
+      busLen = bus.getTotalLength();
+      bus.style.strokeDasharray = busLen;
+      bus.style.strokeDashoffset = drawn ? 0 : busLen;
     }
 
     function pulse(fromNode, toNode, n = 3) {
@@ -231,7 +242,7 @@
     S["vdi-concept"] = {
       el,
       steps: 4,
-      enter(s) { this.setStep(s, 1, true); },
+      enter(s) { layoutBus(); this.setStep(s, 1, true); },
       leave() { tooltip.hidden = true; },
       setStep(i, dir, instant) {
         el.classList.toggle("final", i >= 3);
@@ -296,8 +307,8 @@
       slicedGpu.appendChild(d);
       layers.push(d);
       const p = document.createElementNS(NS, "path");
-      const y0 = 300 - i * 12, y1 = 150 + (i % 3) * 130;
-      p.setAttribute("d", `M 330 ${y0} C 470 ${y0}, 520 ${y1}, 660 ${y1}`);
+      const y1 = 150 + (i % 3) * 130;                  // GPU 중심(300,260)에서 워크로드로 방사
+      p.setAttribute("d", `M 300 260 C 430 260, 520 ${y1}, 660 ${y1}`);
       p.dataset.load = i % 3;
       streamsNew.appendChild(p);
       paths.push(p);
@@ -451,21 +462,20 @@
         if (showTable && dir > 0 && i === 3 && !instant) {
           gsap.fromTo(rows, { opacity: 0, x: -22 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.1, ease: "power2.out" });
         } else gsap.set(rows, { opacity: showTable ? 1 : 0, x: 0 });
-        // 스텝⑤ 활용 분야
+        // 스텝⑤ GPU 활용률 막대 그래프 (기존/GPU Slicing 적용 비교)
         const showRight = i >= 4;
         gsap.set(right, { visibility: showRight ? "visible" : "hidden" });
-        const mask = $(".d5-conclusion .mask-reveal", el);
+        const bars = $$(".d5-bar", el), vals = $$(".d5-bar-val", el);
         if (showRight) {
           gsap.to(right, { opacity: 1, duration: 0.4 });
           if (dir > 0 && !instant) {
-            gsap.fromTo($$(".d5-field", el), { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, stagger: { each: 0.08, grid: [2, 3], from: "start" }, ease: "back.out(1.5)" });
+            bars.forEach((b) => gsap.from(b, { height: 0, duration: 0.95, ease: "power3.out", clearProps: "height" }));
+            gsap.from(vals, { opacity: 0, y: 14, duration: 0.5, stagger: 0.18, delay: 0.55 });
+          } else {
+            gsap.set(vals, { clearProps: "opacity,transform" });
           }
-          gsap.set(".d5-conclusion", { visibility: "visible" });
-          mask.classList.add("on");
         } else {
           gsap.set(right, { opacity: 0 });
-          gsap.set(".d5-conclusion", { visibility: "hidden" });
-          mask.classList.remove("on");
         }
       },
     };

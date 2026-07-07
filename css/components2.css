@@ -95,16 +95,19 @@
 
 /* ════════ D02 · VDI 개념 다이어그램 ════════ */
 #vdi-concept { padding: 0; }
-.v2-left { position: absolute; left: 80px; top: 130px; width: 680px; }
-.v2-title { font-size: 64px; }
-.v2-def { margin-top: 36px; font-size: 28px; line-height: 1.55; color: var(--color-muted); }
-.v2-key { margin-top: 44px; font-size: 44px; font-weight: 800; line-height: 1.35; }
+.v2-left { position: absolute; left: 80px; top: 50%; transform: translateY(-50%); width: 680px; }
+.v2-title { font-size: 68px; }
+.v2-def { margin-top: 44px; font-size: 29px; line-height: 1.6; color: var(--color-muted); }
+.v2-key { margin-top: 70px; font-size: 48px; font-weight: 800; line-height: 1.4; }
 .v2-key em { color: var(--color-accent); transition: text-shadow 0.5s; }
 #vdi-concept.final .v2-key em { text-shadow: 0 0 26px rgba(0,229,255,0.55); }
-.v2-sub { margin-top: 24px; font-size: 28px; color: var(--color-muted); }
+.v2-sub { margin-top: 32px; font-size: 29px; color: var(--color-muted); }
 #vdi-concept.final .v2-sub { color: var(--color-text); }
 
-.v2-diagram { position: absolute; left: 800px; right: 40px; top: 110px; bottom: 60px; }
+.v2-diagram {
+  position: absolute; left: 800px; right: 40px; top: 90px; bottom: 70px;
+  display: flex; flex-direction: column; justify-content: center; gap: 84px;
+}
 .v2-wires { position: absolute; inset: 0; left: -800px; top: -110px; width: 1920px; height: 1080px; }
 .v2-wire { stroke: rgba(79,124,255,0.4); stroke-width: 2.5; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
 .v2-wire-live { stroke: var(--color-accent); stroke-width: 3; opacity: 0; filter: drop-shadow(0 0 6px rgba(0,229,255,0.8)); }
@@ -150,7 +153,7 @@
   transition: box-shadow 0.4s;
 }
 .v2-cloud.lit .v2-bar { box-shadow: var(--glow-accent); }
-.v2-row { position: relative; display: flex; gap: 16px; align-items: center; margin-top: 44px; }
+.v2-row { position: relative; display: flex; gap: 16px; align-items: center; margin-top: 0; }
 .v2-row-label {
   flex: none; width: 150px;
   font-size: 24px; font-weight: 800; letter-spacing: 0.05em;
@@ -203,7 +206,7 @@
 .g4-new.win { border-color: rgba(25,201,141,0.65); box-shadow: 0 0 44px rgba(25,201,141,0.25); }
 .g4-panel h3 { font-size: 30px; font-weight: 800; text-align: center; }
 .g4-stage3d {
-  position: absolute; left: 60px; top: 120px; width: 340px; height: 360px;
+  position: absolute; left: 130px; top: 160px; width: 340px; height: 360px;
   perspective: 1200px;
 }
 .g4-gpu {
@@ -362,20 +365,38 @@
 .d5-th span:first-child { color: var(--color-text); }
 .d5-tilon { color: var(--mint); font-weight: 700; position: relative; }
 .d5-tr:not(.d5-th):hover .d5-tilon::after { content: " ✓"; text-shadow: 0 0 12px rgba(25,201,141,0.8); }
-.d5-right { position: absolute; right: 64px; top: 170px; width: 700px; opacity: 0; visibility: hidden; }
-.d5-right h3 { font-size: 30px; font-weight: 800; }
-.d5-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 22px; }
-.d5-field {
-  border-radius: 14px; border: 1px solid var(--glass-border);
-  background: var(--glass);
-  padding: 22px; text-align: center; font-size: 42px;
-  display: flex; flex-direction: column; gap: 8px; align-items: center;
-  transition: transform 0.22s, box-shadow 0.22s;
+/* D05 우측 · GPU 활용률 막대 그래프 (PPT_AID scene-10 이식) */
+.d5-right {
+  position: absolute; right: 64px; top: 150px; width: 700px; bottom: 56px;
+  opacity: 0; visibility: hidden;
+  display: flex; flex-direction: column;
 }
-.d5-field:hover { transform: scale(1.08); box-shadow: 0 0 24px rgba(25,201,141,0.35); }
-.d5-field span { font-size: 24px; font-weight: 700; }
-.d5-conclusion { margin-top: 34px; font-size: 40px; font-weight: 800; visibility: hidden; }
-.d5-conclusion em { color: var(--mint); }
+.d5-right h3 { flex: none; font-size: 34px; font-weight: 800; }
+.d5-bars {
+  flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 140px;
+  padding: 104px 20px 0;
+}
+.d5-bar-col { display: flex; flex-direction: column; align-items: center; height: 100%; }
+.d5-bar-track { position: relative; width: 150px; flex: 1; }
+.d5-bar {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: var(--h); border-radius: 16px 16px 6px 6px;
+}
+.d5-bar-old {
+  background: linear-gradient(180deg, #4a5570, #2a3040);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+.d5-bar-new {
+  background: linear-gradient(180deg, #00e5ff, #2757d6);
+  box-shadow: 0 0 44px rgba(0,229,255,0.42);
+}
+.d5-bar-val {
+  position: absolute; left: -40px; right: -40px; bottom: calc(var(--h) + 14px);
+  text-align: center; font-size: 48px; font-weight: 800; font-variant-numeric: tabular-nums;
+}
+.d5-bar-val-old { color: #8f9bb3; }
+.d5-bar-val-new { color: #00e5ff; text-shadow: 0 0 24px rgba(0,229,255,0.5); }
+.d5-bar-cap { flex: none; margin-top: 20px; font-size: 25px; color: var(--color-muted); text-align: center; }
 
 /* ════════ D07 · Flip Cards ════════ */
 .f7-head { position: absolute; top: 88px; left: 80px; }

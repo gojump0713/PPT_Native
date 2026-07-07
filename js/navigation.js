@@ -14,6 +14,25 @@
     step: 0,
     locked: false,
     startTime: performance.now(),
+    _autoTimers: [],
+
+    /* ── 자동 시퀀스 (autoplay): 클릭 없이 스텝 자동 진행 (CONFIG.autoplay) ── */
+    clearAuto() { this._autoTimers.forEach(clearTimeout); this._autoTimers.length = 0; },
+    startAuto() {
+      this.clearAuto();
+      const idx = this.current;
+      const seq = (window.CONFIG.autoplay || {})[slides[idx].id];
+      if (!seq) return;
+      if (window.PERF.simple()) { this.applyStep(this.totalSteps(idx) - 1, 1); return; }  // 저사양·reduced-motion: 최종 상태 즉시
+      let acc = 0;
+      seq.forEach((delay, k) => {
+        acc += delay;
+        // 아직 같은 슬라이드이고 수동 진행이 없었을 때만 다음 스텝 진행 (step===k 가드로 자기정합)
+        this._autoTimers.push(setTimeout(() => {
+          if (this.current === idx && this.step === k) this.applyStep(k + 1, 1);
+        }, acc));
+      });
+    },
 
     scene(i) { return window.SCENES[slides[i ?? this.current].id]; },
 
@@ -31,6 +50,7 @@
       }
       if (this.locked) return;
       this.locked = true;
+      this.clearAuto();
 
       const prevIdx = this.current;
       const dir = index > prevIdx ? 1 : -1;
@@ -47,6 +67,7 @@
         if (from) from.classList.remove("active");
         this.scene().enter(step);
         this.sync();
+        this.startAuto();
       };
       to.classList.add("active");
       this.transition(type, from, to, dir, done);
@@ -107,12 +128,14 @@
     /* ── 스텝 소진 규칙 (COM-03) ── */
     next() {
       if (this.locked) return;
+      this.clearAuto();                                   // 수동 진행 시 자동 시퀀스 중단
       if (this.step < this.totalSteps(this.current) - 1) this.applyStep(this.step + 1, 1);
       else if (this.current < slides.length - 1) this.goTo(this.current + 1, { step: 0 });
       else if (window.CONFIG.openOverviewAtEnd && !window.OVERVIEW.isOpen) window.OVERVIEW.open(); // S10-INT-03
     },
     prev() {
       if (this.locked) return;
+      this.clearAuto();                                   // 수동 진행 시 자동 시퀀스 중단
       if (this.step > 0) this.applyStep(this.step - 1, -1);
       else if (this.current > 0) this.goTo(this.current - 1, { step: 0 });
     },
