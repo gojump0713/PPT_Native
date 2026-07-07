@@ -1,0 +1,33 @@
+{
+  "name": "ai-native-campus-deck",
+  "version": "1.0.0",
+  "description": "PC 전용 HTML 인터랙티브 발표 슬라이드 — AI Native Campus",
+  "scripts": {
+    "serve": "npx serve .",
+    "qa": "node qa/qa-run.js",
+    "qa:gate": "node qa/qa-gate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gojump0713/PPT_Native.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gojump0713/PPT_Native/issues"
+  },
+  "homepage": "https://github.com/gojump0713/PPT_Native#readme",
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.25",
+    "pretendard": "^1.3.9",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.3.0",
+    "sharp": "^0.35.3"
+  },
+  "private": true
+}

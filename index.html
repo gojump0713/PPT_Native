@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Native Campus — Interactive Presentation</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%234f7cff'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300e5ff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/fallback.css">
+</head>
+<body>
+
+<!-- ══════════════ ENV GATE (모바일 접근 안내 — PC 전용 정책 0.3절) ══════════════ -->
+<div id="env-gate" hidden>
+  <div class="gate-inner">
+    <div class="gate-logo">AI Native Campus</div>
+    <p class="gate-msg">본 발표 자료는 PC 환경(Chrome/Edge)에 최적화되어 있습니다.</p>
+    <p class="gate-sub">데스크톱 또는 노트북 브라우저에서 열어주세요.</p>
+  </div>
+</div>
+
+<!-- ══════════════ VIEWPORT (레터박스) + 고정 스테이지 1920×1080 ══════════════ -->
+<div id="viewport">
+  <div id="stage">
+
+    <!-- ── S01 · Opening / Hero ─────────────────────────────────── -->
+    <section class="slide" id="opening" data-slide="1" data-section="Opening" data-title="AI Native Campus로의 전환" data-steps="2">
+      <div class="s01-media">
+        <video class="s01-video" muted loop playsinline preload="auto"
+               poster="assets/images/hero-poster.webp">
+          <source src="assets/videos/hero-loop.mp4" type="video/mp4">
+        </video>
+        <div class="s01-poster" aria-hidden="true"></div>
+        <div class="s01-overlay"></div>
+      </div>
+      <canvas class="s01-particles" width="1920" height="1080" aria-hidden="true"></canvas>
+      <div class="s01-copy">
+        <h1 class="s01-title">
+          <span class="s01-line" data-reveal-words>AI Native Campus로의 전환</span>
+          <span class="s01-line" data-reveal-words>대학 교육 인프라의 새로운 표준</span>
+        </h1>
+        <p class="s01-governing">AI를 <em>도입하는</em> 대학에서, AI로 <em>태어나는</em> 대학으로</p>
+      </div>
+    </section>
+
+    <!-- ── S02 · Background / Context ───────────────────────────── -->
+    <section class="slide" id="context" data-slide="2" data-section="Background" data-title="AI는 이미 학습과 행정의 기본 도구가 되었다" data-steps="3">
+      <h2 class="slide-title s02-title">AI는 이미 <span class="hl">학습과 행정의 기본 도구</span>가 되었다</h2>
+      <div class="s02-stage">
+        <div class="s02-img s02-before" role="img" aria-label="AI 금지의 시대 — 종이 시험, 제한적 사용"></div>
+        <div class="s02-img s02-after" role="img" aria-label="AI 권장의 시대 — 학습·연구·행정·업무의 중심"></div>
+        <div class="s02-divider"><span class="s02-handle">⟷</span></div>
+        <div class="s02-label s02-label-before"><strong>‘AI 금지’의 시대</strong><span>종이 시험 · 제한적 사용</span></div>
+        <div class="s02-label s02-label-after"><strong>‘AI 권장’의 시대</strong><span>학습·연구·행정·업무의 중심</span></div>
+        <div class="s02-chips">
+          <button class="chip" data-chip="learn">학습</button>
+          <button class="chip" data-chip="research">연구</button>
+          <button class="chip" data-chip="admin">행정</button>
+          <button class="chip" data-chip="work">업무</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── S03 · Problem 1 · 현장의 목소리 ──────────────────────── -->
+    <section class="slide" id="voices" data-slide="3" data-section="Problem" data-title="현장의 목소리" data-steps="4">
+      <h2 class="slide-title s03-title">현장의 목소리</h2>
+      <div class="s03-carousel-wrap">
+        <div class="s03-carousel">
+          <article class="s03-card" data-persona="student">
+            <div class="s03-avatar s03-avatar-student"></div>
+            <h3 class="s03-persona">학생</h3>
+            <ul class="s03-quotes">
+              <li>“AI 수업인데 제 노트북으로는 딥러닝이 안 돌아가요”</li>
+              <li>“실습실 밖에서는 같은 환경으로 과제를 이어 할 수 없어요”</li>
+              <li>AI 교육이 장비 좋은 학생에게 더 유리해지는 형평성 문제</li>
+            </ul>
+          </article>
+          <article class="s03-card" data-persona="professor">
+            <div class="s03-avatar s03-avatar-professor"></div>
+            <h3 class="s03-persona">교수</h3>
+            <ul class="s03-quotes">
+              <li>“학생마다 환경이 달라 같은 코드도 다르게 동작합니다”</li>
+              <li>“모델 학습·파인튜닝·RAG 실습을 하고 싶어도 GPU가 부족합니다”</li>
+              <li>산학협력용 안전한 AI 실습환경 부재</li>
+            </ul>
+          </article>
+          <article class="s03-card" data-persona="operator">
+            <div class="s03-avatar s03-avatar-operator"></div>
+            <h3 class="s03-persona">운영자</h3>
+            <ul class="s03-quotes">
+              <li>“비싼 GPU를 샀지만 활용률은 낮고 특정 사용자에게 쏠립니다”</li>
+              <li>“외부 LLM 사용 시 데이터가 어디로 나가는지 통제하기 어렵습니다”</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+      <p class="s03-conclusion">
+        <span class="mask-reveal">“AI 교육은 확대되고 있지만,<br>이를 안정적으로 뒷받침할 <em>AI 통합 인프라</em>가 없다”</span>
+      </p>
+    </section>
+
+    <!-- ── S04 · Problem 2 · Pain Points ────────────────────────── -->
+    <section class="slide" id="painpoints" data-slide="4" data-section="Problem" data-title="대학이 안고 있는 복합적인 Pain Point" data-steps="5">
+      <header class="s04-head">
+        <h2 class="slide-title">대학이 안고 있는 <span class="hl">복합적인 Pain Point</span></h2>
+        <p class="s04-subcopy">AI 교육과 행정의 디지털 전환 과정에서 <em>문제는 서로 얽혀 있다</em></p>
+      </header>
+      <div class="s04-grid">
+        <article class="s04-card" data-pain="infra" style="--tilt-seed:-2deg">
+          <svg class="s04-icon" viewBox="0 0 64 64"><path class="draw" d="M32 8v14M32 22l-16 12M32 22l16 12M16 34v14M48 34v14M16 48h8M40 48h8" fill="none"/><circle class="draw" cx="32" cy="8" r="4" fill="none"/><circle class="draw" cx="16" cy="48" r="4" fill="none"/><circle class="draw" cx="48" cy="48" r="4" fill="none"/></svg>
+          <h3>AI 교육 인프라 분산</h3>
+          <p>학과별·건물별로 흩어진 실습 자원</p>
+        </article>
+        <article class="s04-card" data-pain="env" style="--tilt-seed:2deg">
+          <svg class="s04-icon" viewBox="0 0 64 64"><rect class="draw" x="16" y="16" width="32" height="32" rx="4" fill="none"/><rect class="draw" x="26" y="26" width="12" height="12" fill="none"/><path class="draw" d="M24 8v8M32 8v8M40 8v8M24 48v8M32 48v8M40 48v8M8 24h8M8 32h8M8 40h8M48 24h8M48 32h8M48 40h8" fill="none"/></svg>
+          <h3>AI 실습환경 부족</h3>
+          <p>고사양 장비 없이는 수업이 어려움</p>
+        </article>
+        <article class="s04-card" data-pain="remote" style="--tilt-seed:-1.5deg">
+          <svg class="s04-icon" viewBox="0 0 64 64"><rect class="draw" x="8" y="12" width="36" height="26" rx="3" fill="none"/><path class="draw" d="M20 46h12M26 38v8" fill="none"/><rect class="draw" x="46" y="24" width="12" height="22" rx="3" fill="none"/><path class="draw" d="M44 31h2M44 38h2" fill="none"/></svg>
+          <h3>원격교육 한계</h3>
+          <p>실습실 밖에서는 같은 환경 재현 불가</p>
+        </article>
+        <article class="s04-card" data-pain="security" style="--tilt-seed:2.5deg">
+          <svg class="s04-icon" viewBox="0 0 64 64"><path class="draw" d="M32 8l20 8v14c0 12-8 22-20 26C20 52 12 42 12 30V16l20-8z" fill="none"/><path class="draw" d="M24 32l6 6 12-12" fill="none"/></svg>
+          <h3>데이터 보안 리스크</h3>
+          <p>외부 AI 사용 시 데이터 유출 우려</p>
+        </article>
+      </div>
+      <svg class="s04-tangle" viewBox="0 0 1920 1080" aria-hidden="true"></svg>
+      <div class="s04-spotlight" aria-hidden="true"></div>
+    </section>
+
+    <!-- ── S05 · Solution Concept · Convergence ─────────────────── -->
+    <section class="slide" id="solution" data-slide="5" data-section="Solution" data-title="단 하나의 통합 인프라" data-steps="3">
+      <h2 class="slide-title s05-title">단 하나의 <span class="hl">통합 인프라</span>로 모든 전공을 완벽히 지원</h2>
+      <div class="s05-field">
+        <svg class="s05-links" viewBox="0 0 1920 1080" aria-hidden="true"></svg>
+        <div class="s05-center">
+          <div class="s05-ring"></div>
+          <div class="s05-core">
+            <strong>AI Native Campus</strong>
+            <span>하나의 AI 인프라</span>
+            <div class="s05-minis" aria-hidden="true"></div>
+          </div>
+        </div>
+        <!-- 노드 9종: 전공 3 + 자원 6 (JS가 data-node 기반 배치·툴팁) -->
+        <button class="s05-node" data-node="biz"   data-tip="경영·인문 — LLM 자료 분석·보고서 작성">💼 경영·인문</button>
+        <button class="s05-node" data-node="ai"    data-tip="AI 전공 — GPU 기반 모델 학습·파인튜닝">🧠 AI 전공</button>
+        <button class="s05-node" data-node="cs"    data-tip="컴퓨터공학 — AI 코딩·DevOps 개발">💻 컴퓨터공학</button>
+        <button class="s05-node" data-node="gpu"   data-tip="GPU — 대규모 연산 자원 풀">⚡ GPU</button>
+        <button class="s05-node" data-node="llm"   data-tip="LLM — 대화형 AI 모델 서비스">✨ LLM</button>
+        <button class="s05-node" data-node="vdi"   data-tip="VDI — 원격 가상 데스크톱 접속">🖥 VDI</button>
+        <button class="s05-node" data-node="lab"   data-tip="실습환경 — JupyterHub·VS Code Server">🧪 실습환경</button>
+        <button class="s05-node" data-node="tools" data-tip="개발도구 — Copilot·Docker·CI/CD">🛠 개발도구</button>
+        <button class="s05-node" data-node="data"  data-tip="데이터 — 학내 데이터 자산·주권 확보">🗄 데이터</button>
+      </div>
+      <div class="s05-message">
+        <p class="s05-key"><span class="mask-reveal">“AI를 특정 학과의 기술이 아니라,<br><em>모든 전공의 기본 도구</em>로 내재화한다”</span></p>
+        <p class="s05-sub">전공마다 따로 구축하는 것이 아니라, 하나의 인프라 안에서 모든 AI 학습·연구 니즈를 동시에 지원</p>
+      </div>
+    </section>
+
+    <!-- ── S06 · Architecture ───────────────────────────────────── -->
+    <section class="slide" id="architecture" data-slide="6" data-section="Architecture" data-title="AI 인프라 표준 프레임워크" data-steps="5">
+      <h2 class="slide-title s06-title">AI 인프라 <span class="hl">표준 프레임워크</span></h2>
+      <div class="s06-diagram">
+        <svg class="s06-wires" viewBox="0 0 1920 1080" aria-hidden="true">
+          <path id="wire-a" class="s06-wire" d="M 400 400 V 452 H 960 V 505" fill="none"/>
+          <path id="wire-b" class="s06-wire" d="M 960 400 V 505" fill="none"/>
+          <path id="wire-c" class="s06-wire" d="M 1520 400 V 452 H 960 V 505" fill="none"/>
+          <path id="wire-vdi" class="s06-wire" d="M 1600 700 H 1630" fill="none"/>
+          <path id="wire-llm" class="s06-wire" d="M 290 700 H 320" fill="none"/>
+        </svg>
+        <canvas class="s06-flow" width="1920" height="1080" aria-hidden="true"></canvas>
+
+        <div class="s06-area s06-track" data-area="tracks" style="--x:130px">
+          <span class="s06-badge badge-a">🎓 AX 실습</span>
+          <h3>AI융합 전공 · 산학협력 기업 개발자</h3>
+          <p>LLM 활용 비즈니스 자동화 <em>(Inference-Only)</em></p>
+          <div class="s06-tools"><i>상용 LLM API</i><i>RAG·프롬프트</i><i>Business Auto.</i></div>
+        </div>
+        <div class="s06-area s06-track" data-area="tracks" style="--x:690px">
+          <span class="s06-badge badge-b">🧠 AI 모델 개발</span>
+          <h3>인공지능 전공 학생</h3>
+          <p>모델 학습 · Fine-Tuning <em>(From-Scratch · RAG)</em></p>
+          <div class="s06-tools"><i>PyTorch</i><i>scikit-learn</i><i>Jupyter</i><i>Neural Network</i></div>
+        </div>
+        <div class="s06-area s06-track" data-area="tracks" style="--x:1250px">
+          <span class="s06-badge badge-c">&lt;/&gt; SW 개발</span>
+          <h3>컴퓨터공학 전공 학생</h3>
+          <p>AI 활용 SW 전주기 개발 <em>(DevOps·코딩·테스팅)</em></p>
+          <div class="s06-tools"><i>Copilot</i><i>Jenkins</i><i>Docker</i><i>CI/CD</i></div>
+        </div>
+
+        <span class="s06-connector" data-area="connectors" style="--x:352px">API</span>
+        <span class="s06-connector" data-area="connectors" style="--x:912px">vGPU</span>
+        <span class="s06-connector" data-area="connectors" style="--x:1472px">vGPU</span>
+
+        <div class="s06-framework" data-area="framework-board">
+          <span class="s06-fw-label">AI 인프라 표준 프레임워크</span>
+          <div class="s06-fw-head" data-area="framework">
+            <strong>Slurm / Kubernetes</strong>
+            <span>GPU 자원 할당 · AI 토큰 기반 관리 · 자동 스케줄링</span>
+          </div>
+          <div class="s06-modules">
+            <div class="s06-module" data-area="modules" data-tip="내부 데이터 학습 — On-Premise 데이터 주권 확보">
+              <h4>🧬 Internal AI</h4><p>내부 데이터 학습 · On-Premise<br>데이터 주권 확보</p>
+            </div>
+            <div class="s06-module" data-area="modules" data-tip="JupyterHub · VS Code Server — 브라우저 기반 통합 실습">
+              <h4>🌐 Web AI·SW 실습환경</h4><p>JupyterHub · VS Code Server<br>브라우저 기반 통합 실습</p>
+            </div>
+            <div class="s06-module" data-area="modules" data-tip="대규모 연산 자원 풀 — 고성능 학습·추론 인프라">
+              <h4>🗄 GPU 클러스터</h4><p>대규모 연산 자원 풀<br>고성능 학습 · 추론 인프라</p>
+            </div>
+            <div class="s06-module" data-area="modules" data-tip="물리 GPU → 다중 vGPU 분할 — 자원 효율 극대화·비용 절감">
+              <h4>🧩 GPU Slicing</h4><p>물리 GPU → 다중 vGPU 분할<br>자원 효율 극대화 · 비용 절감</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="s06-panel s06-vdi" data-area="vdi">
+          <h4>🖥 VDI</h4>
+          <p>교수·학생 원격 동시 접속</p>
+          <p>저사양 단말기로 AI 실습 가능<br><em>(단말 성능이 학습 제약 안 됨)</em></p>
+          <p>시간 · 장소 제약 없음</p>
+        </div>
+
+        <div class="s06-panel s06-llm" data-area="llm">
+          <span class="s06-badge badge-t">Tokenizer</span>
+          <h4>☁ 외부 상용 LLM</h4>
+          <p class="s06-llm-list">ChatGPT · Gemini · Claude<br>EXAONE · Solar LLM</p>
+          <p><em>필요 시 외부 호출</em></p>
+        </div>
+      </div>
+      <div class="s06-tooltip" role="tooltip" hidden></div>
+    </section>
+
+  </div><!-- /#stage -->
+
+  <!-- ── HUD (스테이지 밖, 뷰포트 기준 오버레이) ── -->
+  <div id="hud">
+    <button id="toc-btn" title="전체 목차 (O)">☰ 목차</button>
+    <div id="hud-info">
+      <span id="hud-section">Opening</span>
+      <span id="hud-page">1 / 6</span>
+      <span id="hud-timer">00:00</span>
+    </div>
+    <div id="progress"><div id="progress-fill"></div></div>
+  </div>
+
+  <!-- ── Overview Mode ── -->
+  <div id="overview" hidden>
+    <h2 class="ov-title">전체 목차</h2>
+    <div class="ov-grid"></div>
+  </div>
+
+  <!-- ── Blackout ── -->
+  <div id="blackout" hidden></div>
+</div><!-- /#viewport -->
+
+<!-- 커스텀 커서 글로우 -->
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/content.js"></script>
+<script src="js/env-gate.js"></script>
+<script src="js/performance.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/overview.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/speaker-notes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

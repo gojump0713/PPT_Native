@@ -1,0 +1,149 @@
+/* layout.css — 고정 스테이지 스케일링 · HUD · Overview · env-gate */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  cursor: default;
+}
+
+/* ── 레터박스 뷰포트 + 1920×1080 고정 스테이지 (PRD 7.1) ── */
+#viewport {
+  position: fixed; inset: 0;
+  background: #000;
+  overflow: hidden;
+}
+/* 스테이지가 뷰포트보다 클 때 grid 중앙정렬이 실패하므로 절대배치 + translate 사용 */
+#stage {
+  position: absolute; left: 50%; top: 50%;
+  width: 1920px; height: 1080px;
+  background: var(--color-bg);
+  transform: translate(-50%, -50%) scale(1);
+  overflow: hidden;
+}
+#stage::after { /* 미세 노이즈 */
+  content: ""; position: absolute; inset: 0;
+  background-image: var(--noise);
+  pointer-events: none; z-index: 5;
+}
+
+/* ── 슬라이드 공통 ── */
+.slide {
+  position: absolute; inset: 0;
+  visibility: hidden; opacity: 0;
+  padding: 96px 160px;
+}
+.slide.active { visibility: visible; opacity: 1; }
+
+.slide-title {
+  font-size: var(--fs-title);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.hl {
+  background: linear-gradient(92deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── HUD ── */
+#hud { position: absolute; inset: 0; pointer-events: none; z-index: 40; }
+#toc-btn {
+  position: absolute; top: 28px; right: 36px;
+  pointer-events: auto;
+  font-size: 17px; font-weight: 600;
+  color: var(--color-muted);
+  padding: 10px 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  transition: color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
+}
+#toc-btn:hover { color: var(--color-text); box-shadow: var(--glow-accent); transform: translateY(-2px); }
+#hud-info {
+  position: absolute; bottom: 18px; right: 36px;
+  display: flex; gap: 20px; align-items: baseline;
+  font-size: 15px; color: var(--color-dim);
+  font-variant-numeric: tabular-nums;
+}
+#hud-section { color: var(--color-muted); font-weight: 600; }
+#progress {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 4px; background: rgba(255,255,255,0.07);
+}
+#progress-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  box-shadow: 0 0 12px rgba(0,229,255,0.6);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Overview Mode ── */
+#overview {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 48px;
+  background: rgba(3, 5, 12, 0.62);
+  backdrop-filter: blur(18px);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+#overview.open { opacity: 1; }
+.ov-title { font-size: 40px; font-weight: 800; letter-spacing: -0.01em; }
+.ov-grid { display: grid; grid-template-columns: repeat(3, 380px); gap: 32px; }
+.ov-card {
+  position: relative;
+  width: 380px; aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(145deg, rgba(20,28,58,0.9), rgba(8,11,24,0.95));
+  overflow: hidden;
+  text-align: left;
+  padding: 24px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.ov-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: var(--ov-art, radial-gradient(circle at 70% 20%, rgba(79,124,255,0.35), transparent 60%));
+  opacity: 0.9;
+}
+.ov-card:hover { transform: scale(1.06); box-shadow: var(--glow-primary); z-index: 2; }
+.ov-card.current { border-color: var(--color-accent); box-shadow: var(--glow-accent); }
+.ov-card.focused { border-color: var(--color-primary); box-shadow: var(--glow-primary); }
+.ov-num { position: relative; font-size: 15px; color: var(--color-dim); font-weight: 600; }
+.ov-sec { position: relative; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); }
+.ov-name { position: relative; font-size: 22px; font-weight: 700; line-height: 1.3; }
+.ov-card .ov-hover-meta { position: absolute; top: 16px; right: 20px; font-size: 13px; color: var(--color-dim); opacity: 0; transition: opacity 0.25s; }
+.ov-card:hover .ov-hover-meta { opacity: 1; }
+
+/* ── Blackout ── */
+#blackout { position: fixed; inset: 0; z-index: 80; background: #000; }
+
+/* ── env-gate (모바일 안내 — 유일한 비-스테이지 화면) ── */
+#env-gate {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-bg); color: var(--color-text);
+  text-align: center; padding: 24px;
+}
+#env-gate[hidden] { display: none; }
+.gate-logo {
+  font-size: 32px; font-weight: 800; margin-bottom: 24px;
+  background: linear-gradient(92deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.gate-msg { font-size: 20px; font-weight: 600; line-height: 1.5; }
+.gate-sub { font-size: 15px; color: var(--color-muted); margin-top: 12px; }
+
+/* ── 커서 글로우 ── */
+#cursor-glow {
+  position: fixed; z-index: 90;
+  width: 480px; height: 480px;
+  margin: -240px 0 0 -240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,124,255,0.10), transparent 65%);
+  pointer-events: none;
+  opacity: 0;
+}

@@ -1,0 +1,46 @@
+/* animations.css — 키프레임 · 전환 유틸 · reduced-motion */
+
+@keyframes shine {
+  from { background-position: 0% 0; }
+  to   { background-position: -220% 0; }
+}
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 0 rgba(0, 229, 255, 0); }
+  50%      { text-shadow: 0 0 34px rgba(0, 229, 255, 0.35); }
+}
+@keyframes s01-gradient {
+  from { background-position: 0% 0%; }
+  to   { background-position: 100% 100%; }
+}
+@keyframes icon-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  35%      { transform: translateY(-8px) rotate(-3deg); }
+  70%      { transform: translateY(2px) rotate(2deg); }
+}
+
+/* Mask Reveal (T-10) */
+.mask-reveal {
+  display: inline-block;
+  clip-path: inset(0 0 100% 0);
+}
+.mask-reveal.on {
+  animation: mask-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes mask-up {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(36px); }
+  to   { clip-path: inset(-10% 0 -10% 0); transform: translateY(0); }
+}
+
+/* ── prefers-reduced-motion (PRD 9.1 / COM-08) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.25s !important;
+  }
+}
+html.reduced-motion *, html.reduced-motion *::before, html.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.25s !important;
+}
