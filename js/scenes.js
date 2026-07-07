@@ -78,8 +78,17 @@
         if (!simple()) {
           video.play().then(() => el.classList.remove("no-video"))
             .catch(() => el.classList.add("no-video"));
-          // 파일 부재·자동재생 차단 등 모든 실패 케이스 → 포스터 폴백 (S01-AC-03)
-          setTimeout(() => { if (video.readyState < 2) el.classList.add("no-video"); }, 1500);
+          // 파일 부재·자동재생 차단·네트워크 오류 → 2회 재시도 후 포스터 폴백 (S01-AC-03)
+          const retryVideo = (attempt) => {
+            if (video.readyState >= 2) { el.classList.remove("no-video"); return; }
+            el.classList.add("no-video");
+            if (attempt < 2) {
+              video.load();
+              video.play().catch(() => {});
+              setTimeout(() => retryVideo(attempt + 1), 4000);
+            }
+          };
+          setTimeout(() => retryVideo(0), 1500);
           if (!field) field = new FX.FloatField(canvas, { count: 70 });
           field.start();
           document.getElementById("stage").addEventListener("mousemove", onMouse);
