@@ -126,17 +126,19 @@
     },
 
     /* ── 스텝 소진 규칙 (COM-03) ── */
+    // 스텝을 건너뛰고 클릭 한 번에 슬라이드 이동 (CONFIG.singleAdvance — 자동재생 슬라이드 발표용)
+    isSingleAdvance() { return (window.CONFIG.singleAdvance || []).includes(slides[this.current].id); },
     next() {
       if (this.locked) return;
       this.clearAuto();                                   // 수동 진행 시 자동 시퀀스 중단
-      if (this.step < this.totalSteps(this.current) - 1) this.applyStep(this.step + 1, 1);
+      if (!this.isSingleAdvance() && this.step < this.totalSteps(this.current) - 1) this.applyStep(this.step + 1, 1);
       else if (this.current < slides.length - 1) this.goTo(this.current + 1, { step: 0 });
       else if (window.CONFIG.openOverviewAtEnd && !window.OVERVIEW.isOpen) window.OVERVIEW.open(); // S10-INT-03
     },
     prev() {
       if (this.locked) return;
       this.clearAuto();                                   // 수동 진행 시 자동 시퀀스 중단
-      if (this.step > 0) this.applyStep(this.step - 1, -1);
+      if (!this.isSingleAdvance() && this.step > 0) this.applyStep(this.step - 1, -1);
       else if (this.current > 0) this.goTo(this.current - 1, { step: 0 });
     },
 

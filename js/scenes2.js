@@ -174,12 +174,21 @@
       return { x: (r.left + r.width / 2 - sr.left) * k, y: (r.top + r.height / 2 - sr.top) * k };
     }
 
-    // 칩 두 행이 세로 중앙 배치(flex)이므로 버스 라인 y를 실제 행 위치로 재계산
+    // 버스 라인 = Cloud Center → 백본 → 접속 지점(Any Where/Any Device)을 잇는 연결선.
+    // 실제 요소 위치로 재계산: 클라우드 하단 중앙에서 내려와 두 칩 행 사이 수평 백본으로 분배.
     function layoutBus() {
+      const sr = document.getElementById("stage").getBoundingClientRect();
+      const k = 1920 / sr.width;
+      const cr = $(".v2-cloud", el).getBoundingClientRect();
+      const cx = Math.round((cr.left + cr.width / 2 - sr.left) * k);
+      const cBottom = Math.round((cr.bottom - sr.top) * k);
       const a = ctr($(".v2-where", el)), b = ctr($(".v2-device", el));
-      const y = Math.round((a.y + b.y) / 2);
+      const busY = Math.round((a.y + b.y) / 2);
+      const wr = $(".v2-where", el).getBoundingClientRect();
+      const left = Math.round((wr.left - sr.left) * k) + 150;   // 'Any Where' 라벨 폭 이후부터
+      const right = Math.round((wr.right - sr.left) * k);
       const drawn = bus.style.strokeDashoffset === "0px" || bus.style.strokeDashoffset === "0";
-      bus.setAttribute("d", `M 900 ${y} H 1840`);
+      bus.setAttribute("d", `M ${cx} ${cBottom} V ${busY} M ${left} ${busY} H ${right}`);
       busLen = bus.getTotalLength();
       bus.style.strokeDasharray = busLen;
       bus.style.strokeDashoffset = drawn ? 0 : busLen;
@@ -667,14 +676,28 @@
     const DEMO_A = "교원 연구년은 매년 10월 학과장 추천을 거쳐 교무처에 신청합니다. 신청서(HWP 양식)와 연구계획서를 제출하시면 됩니다.";
     let timers = [], demoPlayed = false, greetPlayed = false;
 
-    // 노드 연결선
-    const wirePaths = nodes.map((_, i) => {
+    // 노드 연결선 (보라색). d는 실제 위치 기반으로 layoutWires에서 설정
+    const wirePaths = nodes.map(() => {
       const p = document.createElementNS(NS, "path");
-      const y = 300 + i * 150;
-      p.setAttribute("d", `M 1020 ${420 + i * 40} C 1090 ${420 + i * 40}, 1100 ${y}, 1170 ${y}`);
       wires.appendChild(p);
       return p;
     });
+    // 채팅 우측 가장자리 → 각 노드 좌측 중앙으로 정확히 정렬 (오른쪽 네모박스 위치에 맞춤)
+    function layoutWires() {
+      const sr = document.getElementById("stage").getBoundingClientRect();
+      const k = 1920 / sr.width;
+      const chat = $(".j9-chat", el).getBoundingClientRect();
+      const ox = Math.round((chat.right - sr.left) * k);
+      const chatTop = (chat.top - sr.top) * k, chatH = chat.height * k;
+      nodes.forEach((n, i) => {
+        const r = n.getBoundingClientRect();
+        const ex = Math.round((r.left - sr.left) * k);
+        const ey = Math.round((r.top + r.height / 2 - sr.top) * k);
+        const oy = Math.round(chatTop + chatH * (i + 1) / (nodes.length + 1));
+        const midx = Math.round((ox + ex) / 2);
+        wirePaths[i].setAttribute("d", `M ${ox} ${oy} C ${midx} ${oy}, ${midx} ${ey}, ${ex} ${ey}`);
+      });
+    }
 
     function clearTimers() { timers.forEach(clearTimeout); timers = []; }
     function typeInto(node, text, cps, done) {
@@ -747,7 +770,7 @@
     S["jeju-case"] = {
       el,
       steps: 4,
-      enter(s) { this.setStep(s, 1, true); },
+      enter(s) { layoutWires(); this.setStep(s, 1, true); },
       leave() { clearTimers(); },
       setStep(i, dir, instant) {
         el.classList.toggle("final", i >= 3);
