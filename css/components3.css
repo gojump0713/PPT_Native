@@ -1,87 +1,48 @@
 /* components3.css — 03 덱 (교육 플랫폼) 씬 컴포넌트 */
 
-/* ════════ T02 · Instant Setup (IaC 인포그래픽) ════════ */
+/* ════════ T02 · Instant Setup — IaC 변환 다이어그램 (scene-14 컨셉) ════════ */
 #instant-setup { padding: 0; }
-.t2-title { position: absolute; top: 64px; left: 80px; font-size: 58px; }
-.t2-stage {
-  position: absolute; left: 80px; right: 80px; top: 180px; height: 720px;
-  border-radius: var(--radius);
-  border: 1px solid var(--glass-border);
-  background: #070b18;
-  overflow: hidden;
+.t2-title { position: absolute; top: 84px; left: 80px; right: 80px; font-size: 58px; }
+.t2-sub { position: absolute; top: 178px; left: 80px; font-size: 30px; color: var(--color-muted); }
+.t2-flow {
+  position: absolute; left: 80px; right: 80px; top: 300px; bottom: 90px;
+  display: flex; align-items: center; justify-content: center; gap: 44px;
 }
-.t2-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-#instant-setup.no-video .t2-video { display: none; }
-.t2-fallback { position: absolute; inset: 0; display: none; }
-#instant-setup.no-video .t2-fallback { display: block; }
-.t2f-seg { position: absolute; inset: 0; display: none; place-items: center; }
-.t2f-seg.on { display: grid; }
-.t2f-clock { position: absolute; top: 60px; left: 0; right: 0; text-align: center; font-size: 46px; font-weight: 800; color: #aeb6c8; }
-.t2f-clock b { color: #ff8ba0; font-variant-numeric: tabular-nums; }
-.t2f-pipe { display: flex; gap: 22px; }
-.t2f-pipe span {
-  font-size: 27px; font-weight: 700; color: #c3c9d8;
-  padding: 26px 30px; border-radius: 14px;
-  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16);
-  opacity: 0; transform: translateY(30px);
+.t2-chaos, .t2-order { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 500px; }
+.t2-pain {
+  font-size: 28px; font-weight: 700; color: #d5b3bd; text-align: center;
+  padding: 30px 20px; border-radius: 14px;
+  background: rgba(255,92,122,0.08); border: 1px solid rgba(255,92,122,0.38);
 }
-.t2f-err { color: #ff8ba0 !important; border-color: rgba(255,92,122,0.6) !important; }
-.t2f-code {
-  font-family: Consolas, monospace; font-size: 26px; line-height: 1.6;
-  color: var(--mint); white-space: pre-wrap;
-  width: 760px;
-}
-.t2f-stack { position: absolute; right: 140px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 18px; }
-.t2f-stack i {
-  font-style: normal; font-size: 30px; font-weight: 700;
-  padding: 18px 34px; border-radius: 14px;
+.t2-ready {
+  font-size: 29px; font-weight: 700; color: var(--color-text); text-align: center;
+  padding: 28px 20px; border-radius: 14px;
   background: var(--mint-soft); border: 1px solid rgba(25,201,141,0.5);
-  opacity: 0; transform: translateY(24px);
+  box-shadow: 0 0 20px rgba(25,201,141,0.12);
 }
-.t2f-btn {
-  font-size: 34px; font-weight: 800; color: #04121c;
-  padding: 24px 54px; border-radius: 999px;
+.t2-link { position: relative; flex: none; width: 96px; height: 6px; display: flex; align-items: center; }
+.t2-link i {
+  display: block; width: 100%; height: 4px; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(0,229,255,0.15), var(--color-accent));
+  transform: scaleX(0); transform-origin: left;
+}
+.t2-link::after {
+  content: "▸"; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+  color: var(--color-accent); font-size: 32px; line-height: 1;
+}
+.t2-core {
+  flex: none; width: 264px; height: 264px; border-radius: 28px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  border: 2px solid rgba(0,229,255,0.55);
+  background: radial-gradient(circle at 50% 38%, rgba(0,229,255,0.2), rgba(8,14,30,0.92));
+  box-shadow: 0 0 64px rgba(0,229,255,0.32);
+}
+.t2-core-name {
+  font-size: 52px; font-weight: 800;
   background: linear-gradient(92deg, #19c98d, #00e5ff);
-  box-shadow: 0 0 44px rgba(25,201,141,0.5);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.t2f-one { display: none; font-size: 200px; font-weight: 800; color: var(--mint); text-shadow: 0 0 60px rgba(25,201,141,0.5); }
-.t2f-one b { font-variant-numeric: tabular-nums; }
-.t2f-c.done .t2f-btn { display: none; }
-.t2f-c.done .t2f-one { display: block; }
-.t2-segbar {
-  position: absolute; left: 40px; right: 40px; bottom: 26px;
-  display: flex; gap: 12px; z-index: 4;
-}
-.t2-seg {
-  flex: 1; height: 8px; border-radius: 999px;
-  background: rgba(255,255,255,0.16);
-  position: relative; overflow: hidden;
-  transition: background 0.3s;
-}
-.t2-seg::after {
-  content: ""; position: absolute; inset: 0;
-  transform: scaleX(var(--p, 0)); transform-origin: left;
-  background: linear-gradient(90deg, #19c98d, #00e5ff);
-  border-radius: 999px;
-}
-.t2-seg:hover { background: rgba(255,255,255,0.3); }
-.t2-chips {
-  position: absolute; left: 80px; right: 80px; bottom: 40px;
-  display: flex; gap: 24px; justify-content: center;
-}
-.t2-chip {
-  font-size: 26px; font-weight: 600; color: var(--color-dim);
-  padding: 14px 30px; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(10, 14, 28, 0.7);
-  transition: color 0.35s, border-color 0.35s, box-shadow 0.35s, transform 0.35s;
-}
-.t2-chip.on {
-  color: var(--color-text);
-  border-color: rgba(25,201,141,0.6);
-  box-shadow: 0 0 26px rgba(25,201,141,0.25);
-  transform: translateY(-4px);
-}
+.t2-core small { font-size: 21px; font-weight: 700; letter-spacing: 0.22em; color: var(--color-muted); }
 
 /* ════════ T03 · Bento Grid ════════ */
 .t3-head { position: absolute; top: 66px; left: 80px; right: 80px; }

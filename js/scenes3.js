@@ -27,90 +27,38 @@
     });
   })();
 
-  /* ══════ T02 · Instant Setup (IaC 인포그래픽 영상 · 구간 재생) ══════ */
+  /* ══════ T02 · Instant Setup — IaC 변환 다이어그램 (혼돈 → Tstation IaC → 표준 스택) ══════ */
   (function () {
     const el = $("#instant-setup");
-    const video = $(".t2-video", el);
-    const segs = $$(".t2-seg", el);
-    const chips = $$(".t2-chip", el);
-    const SEGSRC = window.CONFIG.iacSegments;           // 구간→파일 매핑 (config.js)
-    let cur = -1, raf = 0, fbTL = null;
+    const pains = $$(".t2-pain", el);
+    const readys = $$(".t2-ready", el);
+    const core = $(".t2-core", el);
+    const links = $$(".t2-link i", el);
+    let tl = null;
 
-    function segLoop() {
-      if (cur >= 0 && video.duration) {
-        segs.forEach((s, k) => s.style.setProperty("--p",
-          k < cur ? 1 : k === cur ? Math.min(1, video.currentTime / video.duration) : 0));
+    function reveal() {
+      if (tl) tl.kill();
+      if (simple()) {                                     // 저사양·reduced-motion: 최종 상태 즉시
+        gsap.set(pains, { opacity: 0.55, filter: "blur(1px)", y: 0 });
+        gsap.set(core, { opacity: 1, scale: 1 });
+        gsap.set(readys, { opacity: 1, x: 0, scale: 1 });
+        gsap.set(links, { scaleX: 1 });
+        return;
       }
-      raf = requestAnimationFrame(segLoop);
+      tl = gsap.timeline();
+      tl.fromTo(pains, { opacity: 0, y: 20 }, { opacity: 0.55, y: 0, filter: "blur(1px)", duration: 0.5, stagger: 0.09, ease: "power2.out" }, 0.15);
+      tl.fromTo(links[0], { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, 0.7);
+      tl.fromTo(core, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, 0.9);
+      tl.fromTo(links[1], { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, 1.4);
+      tl.fromTo(readys, { opacity: 0, x: -30, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 0.5, stagger: 0.09, ease: "back.out(1.6)" }, 1.5);
     }
-
-    // 폴백 인포그래픽 (S02-FBK-01)
-    function playFallback(seg, instant) {
-      if (fbTL) fbTL.kill();
-      $$(".t2f-seg", el).forEach((s, k) => s.classList.toggle("on", k === seg));
-      fbTL = gsap.timeline();
-      if (seg === 0) {
-        const blocks = $$(".t2f-a .t2f-pipe span", el);
-        const clock = $(".t2f-clock b", el);
-        if (instant) { gsap.set(blocks, { opacity: 1, y: 0 }); clock.textContent = "6"; return; }
-        fbTL.to(blocks, { opacity: 1, y: 0, duration: 0.45, stagger: 0.28, ease: "power2.out" });
-        const st = { v: 0 };
-        fbTL.to(st, { v: 6, duration: 1.8, ease: "power1.in", onUpdate: () => (clock.textContent = Math.round(st.v)) }, 0.2);
-      } else if (seg === 1) {
-        const code = $(".t2f-code", el);
-        const stacks = $$(".t2f-stack i", el);
-        const SRC = "env: ai-class-2026\ngpu: A100 x 0.25\nstack: [pytorch, tensorflow, cuda]\ndeploy: instant";
-        if (instant) { code.textContent = SRC; gsap.set(stacks, { opacity: 1, y: 0 }); return; }
-        code.textContent = "";
-        let k = 0;
-        const t = setInterval(() => {
-          code.textContent = SRC.slice(0, ++k);
-          if (k >= SRC.length) clearInterval(t);
-        }, 28);
-        fbTL.add(() => {}, 0.1);
-        fbTL.to(stacks, { opacity: 1, y: 0, duration: 0.4, stagger: 0.2, ease: "back.out(1.6)" }, 1.6);
-      } else {
-        const c = $(".t2f-c", el);
-        const one = $(".t2f-one b", el);
-        if (instant) { c.classList.add("done"); one.textContent = "1"; return; }
-        c.classList.remove("done");
-        fbTL.add(() => c.classList.add("done"), 1.0);
-        fbTL.fromTo(".t2f-one", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)" }, 1.0);
-      }
-    }
-
-    function playSeg(seg, instant) {
-      cur = seg;
-      chips.forEach((c, k) => c.classList.toggle("on", k === seg));       // S02-INT-02
-      if (el.classList.contains("no-video") || simple()) { playFallback(seg, instant); return; }
-      video.src = `assets/videos/${SEGSRC[seg]}`;
-      video.load();
-      if (instant) {
-        // 구간 즉시 완료 상태: 마지막 프레임 (S02-INT-01)
-        video.addEventListener("loadedmetadata", function once() {
-          video.removeEventListener("loadedmetadata", once);
-          video.currentTime = Math.max(0, video.duration - 0.05);
-        });
-      } else {
-        video.play().catch(() => el.classList.add("no-video"));
-      }
-    }
-    // 구간 끝: 마지막 프레임 정지 유지 (S02-AC-02 — loop 미사용)
-    video.addEventListener("ended", () => video.pause());
-    video.addEventListener("error", () => { el.classList.add("no-video"); playFallback(Math.max(0, cur), false); });
-
-    segs.forEach((s, k) => s.addEventListener("click", () => window.DECK.goTo(window.DECK.current, { step: k }))); // S02-INT-03
 
     S["instant-setup"] = {
       el,
-      steps: 3,
-      enter(s) {
-        if (simple()) el.classList.add("no-video");
-        raf = requestAnimationFrame(segLoop);
-        this.setStep(s, 1, true);
-      },
-      leave() { video.pause(); cancelAnimationFrame(raf); if (fbTL) fbTL.kill(); },
-      setStep(i, dir, instant) { playSeg(i, instant && dir > 0); },
+      steps: 1,
+      enter() { reveal(); },                              // 진입 시 클릭 없이 전체 시퀀스 자동 재생
+      leave() { if (tl) tl.kill(); },
+      setStep() {},
     };
   })();
 

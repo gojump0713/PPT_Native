@@ -32,6 +32,8 @@
   function setFocus(i) {
     focus = Math.max(0, Math.min(cards.length - 1, i));
     cards.forEach((c, k) => c.classList.toggle("focused", k === focus));
+    // 포커스 카드가 화면 밖이면 스크롤로 가져오기 (스크롤 가능한 목차)
+    if (cards[focus]) cards[focus].scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
   const OVERVIEW = {

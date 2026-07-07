@@ -572,38 +572,31 @@
       <div class="ch-logo">Tilon</div>
     </section>
 
-    <!-- ── T02 · Instant Setup: 6시간 → 1초 (IaC 인포그래픽 영상) ── -->
-    <section class="slide" id="instant-setup" data-slide="18" data-section="Tstation" data-title="Instant Setup: 6시간 → 1초" data-steps="3">
-      <h2 class="slide-title t2-title">6시간의 실습 준비를 <span class="hl-mint">1초의 마법</span>으로</h2>
-      <div class="t2-stage">
-        <video class="t2-video" muted playsinline preload="none"></video>
-        <div class="t2-fallback">
-          <!-- HTML 인포그래픽 폴백 (S02-FBK-01) -->
-          <div class="t2f-seg t2f-a">
-            <div class="t2f-clock">🕓 <b>0</b>시간</div>
-            <div class="t2f-pipe">
-              <span>OS 설치</span><span>드라이버 세팅</span><span class="t2f-err">CUDA 충돌 ⚠</span><span>프레임워크 설치</span><span>라이선스 확인</span>
-            </div>
-          </div>
-          <div class="t2f-seg t2f-b">
-            <pre class="t2f-code"></pre>
-            <div class="t2f-stack"><i>✓ PyTorch</i><i>✓ TensorFlow</i><i>✓ CUDA</i></div>
-          </div>
-          <div class="t2f-seg t2f-c">
-            <button class="t2f-btn">▶ 실습 시작</button>
-            <div class="t2f-one"><b>1</b>초</div>
-          </div>
+    <!-- ── T02 · Instant Setup — IaC 변환 다이어그램 (PPT_AID scene-14 컨셉) ── -->
+    <section class="slide" id="instant-setup" data-slide="18" data-section="Tstation" data-title="Instant Setup — IaC 표준 개발환경" data-steps="1">
+      <h2 class="slide-title t2-title">실습환경 설정 몇 시간을, <span class="hl-mint">접속 즉시 1초</span>로</h2>
+      <p class="t2-sub">IaC(Infra as Code) 기반 표준 AI 개발환경</p>
+      <div class="t2-flow">
+        <div class="t2-chaos">
+          <span class="t2-pain">⚠ 버전 충돌</span>
+          <span class="t2-pain">⚠ CUDA 오류</span>
+          <span class="t2-pain">⚠ 패키지 지옥</span>
+          <span class="t2-pain">⚠ 환경 편차</span>
         </div>
-        <div class="t2-segbar">
-          <button class="t2-seg" data-seg="0"></button>
-          <button class="t2-seg" data-seg="1"></button>
-          <button class="t2-seg" data-seg="2"></button>
+        <div class="t2-link t2-link-l"><i></i></div>
+        <div class="t2-core">
+          <div class="t2-core-name">Tstation</div>
+          <small>INFRA AS CODE</small>
         </div>
-      </div>
-      <div class="t2-chips">
-        <span class="t2-chip" data-seg="0">⏳ 4~6시간 · 5단계 수작업</span>
-        <span class="t2-chip" data-seg="1">📜 IaC — 코드가 곧 인프라 · 최신 스택 사전 검증</span>
-        <span class="t2-chip" data-seg="2">⚡ 원클릭 접속 · 즉시 개발 착수</span>
+        <div class="t2-link t2-link-r"><i></i></div>
+        <div class="t2-order">
+          <span class="t2-ready">Jupyter</span>
+          <span class="t2-ready">VSCode</span>
+          <span class="t2-ready">GPU</span>
+          <span class="t2-ready">Memory</span>
+          <span class="t2-ready">Dataset</span>
+          <span class="t2-ready">Source Code</span>
+        </div>
       </div>
     </section>
 

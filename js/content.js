@@ -141,10 +141,10 @@ window.CONTENT = [
   {
     id: "instant-setup",
     section: "Tstation",
-    title: "Instant Setup: 6시간 → 1초",
+    title: "Instant Setup — IaC 표준 개발환경",
     transition: "fade",
     art: "linear-gradient(110deg, rgba(30,30,36,0.85) 0 45%, rgba(6,40,32,0.85) 45% 100%)",
-    notes: "IaC 인포그래픽 장표. 스텝: ①구간A 전통 방식 4~6시간 5단계 → ②구간B 코드가 곧 인프라 → ③구간C 1초 접속. 각 스텝이 영상 구간(또는 HTML 폴백)을 재생하고 하단 자막 칩이 교체됨. 발표 템포를 스텝으로 제어.",
+    notes: "IaC 변환 다이어그램(PPT_AID scene-14 컨셉). 진입 시 클릭 없이 자동 재생 — 좌측 혼돈(버전 충돌·CUDA 오류·패키지 지옥·환경 편차)이 흐릿하게 떠오르고 → 중앙 Tstation(INFRA AS CODE) 코어가 점등 → 우측 표준 스택(Jupyter·VSCode·GPU·Memory·Dataset·Source Code)이 정렬되어 등장. 핵심 메시지: '코드가 곧 인프라 — 접속 즉시 표준 개발환경'.",
   },
   {
     id: "tstation-features",
