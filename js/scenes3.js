@@ -274,13 +274,7 @@
       });
       t.addEventListener("mouseleave", () => clearTimeout(hoverTimer));
     });
-    // 키보드 ↑/↓ 탭 전환 (S05-INT-04)
-    window.addEventListener("keydown", (e) => {
-      if (window.DECK.current !== window.DECK.slides.indexOf(el)) return;
-      if (window.OVERVIEW.isOpen) return;
-      if (e.key === "ArrowDown") { e.preventDefault(); stopCycle(); setTab(Math.min(3, Math.max(0, active) + 1)); }
-      else if (e.key === "ArrowUp") { e.preventDefault(); stopCycle(); setTab(Math.max(0, active - 1)); }
-    });
+    // ↑/↓는 전역 슬라이드 이동(이전/다음)으로 사용 — 탭 전환은 클릭·hover·자동 순회로 (navigation.js 키맵 참고)
 
     S["cas-platform"] = {
       el,

@@ -196,9 +196,9 @@
     if (window.OVERVIEW.isOpen && window.OVERVIEW.key(e)) return;
 
     switch (e.key) {
-      case "ArrowRight": case " ": case "PageDown":
+      case "ArrowRight": case "ArrowDown": case " ": case "PageDown":
         e.preventDefault(); DECK.next(); break;
-      case "ArrowLeft": case "PageUp":
+      case "ArrowLeft": case "ArrowUp": case "PageUp":
         e.preventDefault(); DECK.prev(); break;
       case "Home": e.preventDefault(); DECK.goTo(0); break;
       case "End": e.preventDefault(); DECK.goTo(slides.length - 1); break;

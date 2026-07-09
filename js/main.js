@@ -22,6 +22,16 @@
     requestAnimationFrame(glowLoop);
   })();
 
+  /* ── 오프닝 전체화면 아이콘 (F 키와 동일 동작) ── */
+  const fsBtn = document.querySelector(".s01-fs");
+  if (fsBtn) {
+    fsBtn.addEventListener("click", (e) => {
+      e.stopPropagation();                                 // 스테이지 클릭(다음) 전파 방지
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen().catch(() => {});
+    });
+  }
+
   /* ── reduced-motion: GSAP 타임라인 가속 (0.2~0.3초 수준 크로스페이드화, COM-08) ── */
   if (window.PERF.reducedMotion) gsap.globalTimeline.timeScale(3);
 
