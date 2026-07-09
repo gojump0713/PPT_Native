@@ -32,6 +32,23 @@
   S.cbt001 = fullscreenVideo("cbt001");
   S.cbt002 = fullscreenVideo("cbt002");
 
+  /* ══════ 외부 덱 임베드 슬라이드 (PPT_AID legacy iframe) ══════ */
+  function embedScene(id) {
+    const el = $("#" + id);
+    const frame = $(".embed-frame", el);
+    return {
+      el,
+      steps: 1,
+      enter() {                                            // 최초 진입 시에만 로드(지연 로딩)
+        if (frame && !frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src);
+      },
+      leave() {},
+      setStep() {},
+    };
+  }
+  ["aid-42", "aid-43", "aid-44", "aid-45", "aid-46", "aid-47", "aid-48", "aid-49", "aid-50"]
+    .forEach((id) => (S[id] = embedScene(id)));
+
   /* ══════ T04 · CAS 챕터 타이틀 (+ 키워드 칩 5종 → 라인 연결) ══════ */
   (function () {
     const el = $("#cas");
