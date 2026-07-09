@@ -8,6 +8,30 @@
   /* ══════ T01 · Tstation 챕터 타이틀 ══════ */
   S.tstation = window.CHAPTER_SCENE("tstation");
 
+  /* ══════ 전체화면 자동재생 영상 슬라이드 (TS/CBT 시연) ══════ */
+  function fullscreenVideo(id) {
+    const el = $("#" + id);
+    const video = $(".fsv-video", el);
+    return {
+      el,
+      steps: 1,
+      enter() {
+        try { video.currentTime = 0; } catch (e) { /* 아직 미로드 */ }
+        const p = video.play();                 // muted 이므로 자동재생 정책 통과
+        if (p && p.catch) p.catch(() => {});
+      },
+      leave() {
+        video.pause();
+        try { video.currentTime = 0; } catch (e) { /* noop */ }
+      },
+      setStep() {},
+    };
+  }
+  S.ts001 = fullscreenVideo("ts001");
+  S.ts002 = fullscreenVideo("ts002");
+  S.cbt001 = fullscreenVideo("cbt001");
+  S.cbt002 = fullscreenVideo("cbt002");
+
   /* ══════ T04 · CAS 챕터 타이틀 (+ 키워드 칩 5종 → 라인 연결) ══════ */
   (function () {
     const el = $("#cas");
