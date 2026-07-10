@@ -1,7 +1,7 @@
 /* config.js — 발표 설정 */
 window.CONFIG = {
   title: "AI Native Campus",
-  totalLabel: 34,
+  totalLabel: 25,
 
   // 모션 강도 (1 = 기본). reduced-motion·저사양 시 자동 무시
   motionScale: 1,
