@@ -1,0 +1,226 @@
+/* components5.css — 05 덱 · iStation 심화 4장 (기능명세서 v2.0)
+ * 색상 의미 고정: 내부 AI = Cyan·Blue·Green / 외부 상용 AI = Orange·Violet / Web = Yellow */
+
+.is5 {
+  padding: 0;
+  --internal-ai: #18d7e8;
+  --istation-blue: #3978ff;
+  --success: #23d7a0;
+  --routing: #8c6cff;
+  --web-search: #f7c95c;
+  --external-api: #ff7867;
+  --personal: #ff9f43;
+  --panel: rgba(15, 27, 52, 0.72);
+  --panel-bd: rgba(255, 255, 255, 0.12);
+}
+.is5-idx {
+  position: absolute; top: 56px; left: 80px;
+  font-size: 20px; font-weight: 700; letter-spacing: 0.22em;
+  color: var(--internal-ai); opacity: 0.9;
+}
+
+/* ════════════════ P1 · 경제성 비교 (query-split-compare) ════════════════ */
+#econ-compare .ec-gov {
+  position: absolute; top: 90px; left: 80px; right: 80px;
+  font-size: 39px; font-weight: 800; line-height: 1.26; letter-spacing: -0.02em;
+}
+#econ-compare .ec-gov em { color: var(--external-api); font-style: normal; }
+#econ-compare .ec-gov b {
+  background: linear-gradient(92deg, var(--internal-ai), var(--success));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.ec-query {
+  position: absolute; top: 216px; left: 50%; transform: translateX(-50%);
+  z-index: 5; display: flex; align-items: center; gap: 12px;
+  padding: 12px 26px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4); opacity: 0;
+}
+.ec-query-ic { font-size: 26px; }
+.ec-query p { font-size: 23px; font-weight: 600; color: #fff; }
+.ec-split {
+  position: absolute; top: 292px; left: 80px; right: 80px; bottom: 150px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 36px;
+}
+.ec-panel {
+  position: relative; overflow: hidden;
+  border-radius: 20px; padding: 22px 28px;
+  background: var(--panel); border: 1px solid var(--panel-bd);
+  opacity: 0.34; transition: opacity 0.5s ease, box-shadow 0.6s ease;
+}
+.ec-panel.on { opacity: 1; }
+.ec-ext.on { border-color: rgba(255, 120, 103, 0.5); }
+.ec-int.on { border-color: rgba(24, 215, 232, 0.4); }
+.ec-int.focus { border-color: rgba(24, 215, 232, 0.7); box-shadow: 0 0 54px rgba(24, 215, 232, 0.26); }
+.ec-panel-h { font-size: 22px; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 14px; }
+.ec-ext .ec-panel-h { color: var(--external-api); }
+.ec-int .ec-panel-h { color: var(--internal-ai); }
+.ec-flow { display: flex; flex-direction: column; gap: 7px; }
+.ec-flow li {
+  position: relative; font-size: 20px; font-weight: 600; color: rgba(255, 255, 255, 0.9);
+  padding: 7px 16px 7px 32px; border-radius: 10px; background: rgba(255, 255, 255, 0.045);
+}
+.ec-flow li::before { content: "↓"; position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--color-dim); }
+.ec-flow li:first-child::before { content: ""; }
+.ec-flow li i { font-style: normal; color: var(--color-muted); font-size: 17px; }
+.ec-ext .ec-flow li:last-child { color: var(--external-api); background: rgba(255, 120, 103, 0.1); }
+.ec-int .ec-flow li:last-child { color: var(--success); background: rgba(35, 215, 160, 0.1); }
+.ec-gauge { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.ec-g-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 8px 16px; border-radius: 10px; background: rgba(255, 120, 103, 0.08);
+  border: 1px solid rgba(255, 120, 103, 0.25);
+}
+.ec-g-row span { font-size: 17px; letter-spacing: 0.06em; color: var(--color-muted); }
+.ec-g-row b { font-size: 28px; font-weight: 800; color: var(--external-api); font-variant-numeric: tabular-nums; }
+.ec-cost { color: #ffb0a5 !important; font-size: 22px !important; }
+.ec-kpi { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.ec-k { display: flex; justify-content: space-between; align-items: center; padding: 11px 18px; border-radius: 12px; background: rgba(24, 215, 232, 0.07); border: 1px solid rgba(24, 215, 232, 0.28); }
+.ec-k span { font-size: 18px; color: var(--color-muted); }
+.ec-k b { font-size: 34px; font-weight: 800; color: var(--internal-ai); }
+.ec-k-big { flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 20px; }
+.ec-k-big span { font-size: 19px; }
+.ec-zero { font-size: 76px !important; line-height: 0.95; color: var(--success) !important; text-shadow: 0 0 30px rgba(35, 215, 160, 0.45); }
+.ec-badge { align-self: flex-start; font-size: 17px; font-weight: 700; letter-spacing: 0.03em; color: var(--success); padding: 7px 14px; border-radius: 999px; background: rgba(35, 215, 160, 0.14); border: 1px solid rgba(35, 215, 160, 0.4); opacity: 0; }
+.ec-particles { position: absolute; right: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.ec-conclusion { position: absolute; bottom: 60px; left: 50%; transform: translate(-50%, 12px); font-size: 27px; font-weight: 700; color: #fff; opacity: 0; text-align: center; }
+.ec-conclusion b { color: var(--internal-ai); }
+
+/* ════════════════ P2 · AI Routing (flex 밴드 · USER → Coordinator → VLM → Gate) ════════════════ */
+#ai-routing .ar-gov { position: absolute; top: 90px; left: 80px; right: 80px; font-size: 44px; font-weight: 800; letter-spacing: -0.02em; }
+#ai-routing .ar-gov b { background: linear-gradient(92deg, var(--internal-ai), var(--istation-blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+#ai-routing .ar-gov em { color: var(--external-api); font-style: normal; }
+.ar-stage { position: absolute; top: 178px; left: 80px; right: 316px; bottom: 92px; display: flex; flex-direction: column; justify-content: space-evenly; }
+
+/* Coordinator → Routing 연결선 (예외 경로) */
+.ar-cc { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+.ar-cc-path { fill: none; stroke: var(--routing); stroke-width: 2.5; stroke-dasharray: 7 6; opacity: 0.8; }
+.ar-cc-lbl { fill: var(--routing); font-size: 15px; font-weight: 700; }
+
+/* 상단 밴드 */
+.ar-band { position: relative; z-index: 1; display: flex; align-items: center; gap: 6px; }
+.ar-arrow { flex: 1 1 auto; min-width: 46px; height: 3px; align-self: center; border-radius: 999px; background: rgba(255, 255, 255, 0.16); position: relative; transition: background 0.4s ease; }
+.ar-arrow::after { content: ""; position: absolute; right: -2px; top: 50%; transform: translateY(-50%); border-left: 10px solid rgba(255, 255, 255, 0.16); border-top: 7px solid transparent; border-bottom: 7px solid transparent; transition: border-left-color 0.4s ease; }
+.ar-arrow.on { background: var(--internal-ai); }
+.ar-arrow.on::after { border-left-color: var(--internal-ai); }
+.ar-arrow-lbl { position: absolute; left: 50%; top: -26px; transform: translateX(-50%); font-size: 15px; font-weight: 700; color: var(--internal-ai); white-space: nowrap; }
+.ar-cell { border-radius: 16px; transition: opacity 0.5s ease, box-shadow 0.6s ease, border-color 0.5s ease; }
+.ar-user { flex: 0 0 168px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); }
+.ar-user i { font-size: 34px; line-height: 1; }
+.ar-user b { font-size: 20px; font-weight: 800; letter-spacing: 0.05em; color: #fff; }
+.ar-user-mods { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+.ar-user-mods span { font-size: 13px; color: var(--color-muted); padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); }
+.ar-coord { flex: 0 0 152px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 20px 10px; background: rgba(57, 120, 255, 0.1); border: 1px solid rgba(57, 120, 255, 0.5); }
+.ar-coord i { font-size: 40px; color: var(--istation-blue); line-height: 1; }
+.ar-coord span { font-size: 17px; font-weight: 700; letter-spacing: 0.04em; color: #fff; line-height: 1.2; text-align: center; }
+.ar-vlm { flex: 0 0 306px; padding: 16px 18px; background: rgba(24, 215, 232, 0.05); border: 1px solid rgba(24, 215, 232, 0.3); opacity: 0.42; }
+.ar-vlm.on { opacity: 1; box-shadow: 0 0 42px rgba(24, 215, 232, 0.28); border-color: var(--internal-ai); }
+.ar-vlm-h { font-size: 19px; font-weight: 800; color: var(--internal-ai); letter-spacing: 0.04em; margin-bottom: 10px; }
+.ar-vlm-h em { font-style: normal; font-size: 14px; font-weight: 600; color: var(--color-muted); }
+.ar-vlm u { display: block; text-decoration: none; font-size: 17px; color: rgba(255, 255, 255, 0.5); padding: 7px 12px; border-radius: 8px; margin-bottom: 5px; transition: color 0.3s ease, background 0.3s ease; }
+.ar-vlm u.on { color: #fff; background: rgba(24, 215, 232, 0.14); }
+.ar-gate { flex: 0 0 168px; position: relative; height: 168px; opacity: 0.42; }
+.ar-gate.on { opacity: 1; }
+.ar-gauge { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.ar-gauge-bg { fill: none; stroke: rgba(255, 255, 255, 0.12); stroke-width: 8; }
+.ar-gauge-fill { fill: none; stroke: var(--internal-ai); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 327; stroke-dashoffset: 327; }
+.ar-gate-txt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.ar-gate-txt b { font-size: 40px; font-weight: 800; color: #fff; }
+.ar-gate-txt b i { font-size: 21px; font-style: normal; color: var(--internal-ai); }
+.ar-gate-txt span { font-size: 13px; letter-spacing: 0.04em; color: var(--color-muted); margin-top: 2px; }
+
+/* 하단 결과 분기 (좌측 여백 확보 — Coordinator→Routing 연결선 통로) */
+.ar-outcomes { position: relative; z-index: 1; margin-left: 90px; display: flex; flex-direction: column; gap: 18px; }
+.ar-out { display: flex; align-items: center; gap: 16px; opacity: 0.28; transition: opacity 0.5s ease; }
+.ar-out.on { opacity: 1; }
+.ar-out-tag { flex: 0 0 158px; font-size: 17px; font-weight: 700; text-align: center; padding: 10px 10px; border-radius: 999px; }
+.ar-out-main .ar-out-tag { color: var(--success); background: rgba(35, 215, 160, 0.12); border: 1px solid rgba(35, 215, 160, 0.4); }
+.ar-out-exc .ar-out-tag { color: var(--color-muted); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.18); }
+.ar-internal-ans { flex: 1; font-size: 20px; font-weight: 700; color: var(--success); padding: 18px 22px; border-radius: 14px; background: rgba(35, 215, 160, 0.1); border: 1px solid rgba(35, 215, 160, 0.4); }
+.ar-internal-ans em { font-style: normal; font-weight: 500; color: var(--color-muted); }
+.ar-out-body { flex: 1; display: flex; align-items: center; gap: 14px; }
+.ar-routing { flex: 0 0 132px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 800; letter-spacing: 0.04em; color: #fff; padding: 16px 12px; border-radius: 12px; background: rgba(140, 108, 255, 0.1); border: 1px solid var(--routing); }
+.ar-routing i { color: var(--routing); font-size: 20px; }
+.ar-branches { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.ar-branch { padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 500; color: var(--color-muted); }
+.ar-branch b { display: block; font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+.ar-web { background: rgba(247, 201, 92, 0.08); border: 1px dashed rgba(247, 201, 92, 0.5); }
+.ar-web b { color: var(--web-search); }
+.ar-pub { background: rgba(140, 108, 255, 0.08); border: 1px dashed rgba(140, 108, 255, 0.5); }
+.ar-pub b { color: var(--routing); }
+.ar-token-meter { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.ar-token-meter > span { font-size: 13px; letter-spacing: 0.04em; color: var(--external-api); flex: none; }
+.ar-token-meter u { display: block; flex: 1; height: 7px; border-radius: 999px; background: rgba(255, 120, 103, 0.18); overflow: hidden; }
+.ar-token-meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--external-api), #ffb0a5); }
+
+.ar-gov-panel { position: absolute; right: 70px; top: 178px; bottom: 92px; width: 210px; padding: 20px 18px; border-radius: 18px; background: var(--panel); border: 1px solid var(--panel-bd); display: flex; flex-direction: column; gap: 12px; }
+.ar-gov-h { font-size: 18px; font-weight: 800; letter-spacing: 0.06em; color: var(--color-muted); }
+.ar-gp-item { font-size: 16px; color: var(--color-muted); line-height: 1.3; padding: 12px 14px; border-radius: 11px; background: rgba(255, 255, 255, 0.04); border: 1px solid transparent; transition: all 0.4s ease; }
+.ar-gp-item b { display: block; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.ar-gp-item.hot { border-color: var(--external-api); background: rgba(255, 120, 103, 0.1); }
+.ar-gp-item.hot b { color: var(--external-api); }
+.ar-conclusion { position: absolute; bottom: 42px; left: 80px; right: 316px; text-align: center; font-size: 25px; font-weight: 700; color: #fff; opacity: 0; }
+.ar-conclusion b { color: var(--internal-ai); }
+
+/* ════════════════ P3 · Open-Weight Intelligence Index (사이트 데이터 재현) ════════════════ */
+#open-weight-benchmark .ob-title { position: absolute; top: 88px; left: 80px; right: 80px; font-size: 46px; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+.ob-card { position: absolute; top: 196px; left: 80px; right: 80px; bottom: 112px; background: #fff; border-radius: 20px; padding: 26px 34px 18px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; }
+.ob-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.ob-card-ttl h3 { font-size: 25px; font-weight: 800; color: #10141d; }
+.ob-card-ttl h3 span { font-weight: 600; color: #5b6472; }
+.ob-card-ttl p { font-size: 12.5px; color: #949cab; margin-top: 6px; max-width: 1180px; }
+.ob-legend { display: flex; gap: 18px; flex: none; padding-top: 4px; }
+.ob-lg { position: relative; font-size: 15px; font-weight: 600; color: #3a4150; padding-left: 24px; }
+.ob-lg::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 3px; }
+.ob-lg-prop::before { background: #14161c; }
+.ob-lg-open::before { background: #2e7ff5; }
+.ob-chart { flex: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin: 24px 0 58px; }
+.ob-b { position: relative; flex: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+.ob-b-score { font-size: 15px; font-weight: 800; color: #10141d; margin-bottom: 5px; font-variant-numeric: tabular-nums; }
+.ob-b-fill { width: 100%; max-width: 50px; height: 0; border-radius: 5px 5px 0 0; }
+.ob-b[data-type="proprietary"] .ob-b-fill { background: #17191f; }
+.ob-b[data-type="open"] .ob-b-fill { background: #2e7ff5; }
+.ob-b-name { position: absolute; top: 100%; right: 50%; margin-top: 9px; transform-origin: top right; transform: rotate(-42deg); white-space: nowrap; font-size: 12.5px; font-weight: 500; color: #5b6472; }
+.ob-b[data-type="open"] .ob-b-name { color: #2e7ff5; font-weight: 700; }
+.ob-wordmark { position: absolute; bottom: 12px; right: 22px; font-size: 13px; font-style: italic; color: #b3b9c4; }
+.ob-note { position: absolute; bottom: 60px; left: 80px; font-size: 18px; color: var(--color-dim); z-index: 5; }
+.ob-src-link { color: var(--internal-ai); text-decoration: underline; text-underline-offset: 3px; pointer-events: auto; transition: color 0.2s ease; }
+.ob-src-link:hover { color: #fff; }
+
+/* ════════════════ P4 · 계층적 다중 AI (OIGP 구조도 · 자체 렌더) ════════════════ */
+.ha2-head { position: absolute; top: 92px; left: 80px; right: 80px; }
+.ha2-title { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
+.ha2-title span { font-size: 23px; font-weight: 600; color: var(--color-muted); margin-left: 12px; }
+.ha2-sub { font-size: 21px; color: var(--color-muted); margin-top: 8px; }
+.ha2-main { position: absolute; top: 216px; left: 80px; right: 80px; bottom: 148px; display: grid; grid-template-columns: 1fr 320px; gap: 46px; align-items: center; }
+.ha2-layers { display: flex; flex-direction: column; gap: 16px; }
+.ha2-layer { display: flex; align-items: center; gap: 22px; padding: 20px 28px; border-radius: 16px; background: var(--panel); border: 1px solid var(--panel-bd); border-left-width: 6px; }
+.ha2-ic { flex: none; width: 62px; height: 62px; display: grid; place-items: center; font-size: 34px; border-radius: 14px; }
+.ha2-tx b { font-size: 26px; font-weight: 800; }
+.ha2-tx i { font-size: 18px; font-style: normal; color: var(--color-muted); margin-left: 10px; }
+.ha2-tx span { display: block; font-size: 19px; color: rgba(255, 255, 255, 0.78); margin-top: 6px; }
+.ha2-flow { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ha2-node { width: 100%; text-align: center; padding: 18px 12px; border-radius: 14px; font-size: 21px; font-weight: 800; color: #fff; }
+.ha2-arw { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 13px solid rgba(255, 255, 255, 0.45); }
+.ha2-base { position: absolute; bottom: 52px; left: 80px; right: 80px; display: flex; gap: 16px; }
+.ha2-base span { flex: 1; text-align: center; font-size: 18px; font-weight: 600; color: var(--color-muted); padding: 15px 10px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--panel-bd); }
+/* 계층 색상 (Organization=blue · Internal=green · Group=purple · Personal=orange) */
+.ha2-layer[data-l="org"]      { border-left-color: var(--istation-blue); }
+.ha2-layer[data-l="internal"] { border-left-color: var(--success); }
+.ha2-layer[data-l="group"]    { border-left-color: var(--routing); }
+.ha2-layer[data-l="personal"] { border-left-color: var(--personal); }
+.ha2-layer[data-l="org"] .ha2-ic      { background: rgba(57, 120, 255, 0.16); }
+.ha2-layer[data-l="internal"] .ha2-ic { background: rgba(35, 215, 160, 0.16); }
+.ha2-layer[data-l="group"] .ha2-ic    { background: rgba(140, 108, 255, 0.16); }
+.ha2-layer[data-l="personal"] .ha2-ic { background: rgba(255, 159, 67, 0.16); }
+.ha2-layer[data-l="org"] .ha2-tx b      { color: var(--istation-blue); }
+.ha2-layer[data-l="internal"] .ha2-tx b { color: var(--success); }
+.ha2-layer[data-l="group"] .ha2-tx b    { color: var(--routing); }
+.ha2-layer[data-l="personal"] .ha2-tx b { color: var(--personal); }
+.ha2-node[data-l="org"]      { background: rgba(57, 120, 255, 0.22); border: 1px solid var(--istation-blue); }
+.ha2-node[data-l="internal"] { background: rgba(35, 215, 160, 0.2); border: 1px solid var(--success); }
+.ha2-node[data-l="group"]    { background: rgba(140, 108, 255, 0.2); border: 1px solid var(--routing); }
+.ha2-node[data-l="personal"] { background: rgba(255, 159, 67, 0.2); border: 1px solid var(--personal); }
+
+/* ════════════════ 저사양·reduced-motion 폴백 ════════════════ */
+.reduced-motion .ec-panel, .low-power .ec-panel { opacity: 1 !important; }
