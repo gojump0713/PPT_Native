@@ -202,4 +202,12 @@ window.CONTENT = [
     art: "radial-gradient(circle at 50% 50%, rgba(124,92,255,0.4), transparent 60%)",
     notes: "CBT 시연 영상(CBT002) 전체화면 자동재생. 진입 시 처음부터 자동 재생·루프.",
   },
+  {
+    id: "brand-film",
+    section: "Brand",
+    title: "TILON 브랜드 필름 — Connected by TILON",
+    transition: "fade",
+    art: "radial-gradient(circle at 50% 45%, rgba(79,124,255,0.42), rgba(0,229,255,0.18) 45%, transparent 65%)",
+    notes: "TILON 브랜드 필름(AI 생성, 15초 루프) 전체화면 자동재생. FPV 드론이 미래 도시를 관통하며 Dstation~Vstation → TILON 타워 → Center 시리즈 순으로 BI 노출. 12초부터 엔딩 카피 'Beyond Workspace, Into AI-Native Infrastructure' 페이드인(루프 시 재동기화).",
+  },
 ];
