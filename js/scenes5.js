@@ -133,47 +133,77 @@
     };
   })();
 
-  /* ══════════════ P3 · Open-Weight Intelligence Index (사이트 데이터 재현 차트) ══════════════ */
+  /* ══════════════ P3 · Open-Weight Intelligence Index (날짜별 스냅샷 · 달력 선택) ══════════════ */
   (function () {
     const el = $("#open-weight-benchmark");
     const chart = $(".ob-chart", el);
-    // Artificial Analysis Intelligence Index v4.1 · 2026-07 스냅샷 (artificialanalysis.ai / benchlm.ai)
-    const DATA = [
-      { name: "Claude Fable 5", score: 60.0, type: "proprietary" },
-      { name: "GPT-5.6 Sol", score: 58.9, type: "proprietary" },
-      { name: "Claude Opus 4.8", score: 55.7, type: "proprietary" },
-      { name: "GPT-5.6 Terra", score: 55.0, type: "proprietary" },
-      { name: "GPT-5.5", score: 54.8, type: "proprietary" },
-      { name: "Grok 4.5", score: 53.8, type: "proprietary" },
-      { name: "Claude Opus 4.7", score: 53.5, type: "proprietary" },
-      { name: "Claude Sonnet 5", score: 53.4, type: "proprietary" },
-      { name: "GPT-5.4", score: 51.4, type: "proprietary" },
-      { name: "GPT-5.6 Luna", score: 51.2, type: "proprietary" },
-      { name: "GLM-5.2", score: 51.1, type: "open" },
-      { name: "Gemini 3.5 Flash", score: 50.2, type: "proprietary" },
-      { name: "Gemini 3.1 Pro", score: 46.5, type: "proprietary" },
-      { name: "Qwen3.7 Max", score: 46.0, type: "proprietary" },
-      { name: "MiniMax M3", score: 44.4, type: "open" },
-      { name: "GPT-5.3 Codex", score: 44.3, type: "proprietary" },
-      { name: "DeepSeek V4 Pro", score: 44.3, type: "open" },
-      { name: "Kimi K2.6", score: 44.2, type: "open" },
-      { name: "Claude Opus 4.6", score: 43.7, type: "proprietary" },
-      { name: "Muse Spark 1.1", score: 43.1, type: "proprietary" },
+    const pick = $("#ob-datepick", el);
+    const snapLabel = $("#ob-snap-label", el);
+    // Artificial Analysis Intelligence Index — 날짜별 스냅샷 (점수 임의 수정 없음, 각 date의 공개 집계 그대로)
+    // 새 스냅샷 추가: 아래 배열에 { date, ver, data } 객체를 날짜 오름차순으로 삽입 + index.html의 input max 갱신
+    const SNAPSHOTS = [
+      { date: "2026-03-31", ver: "v4.0", data: [
+        { name: "Gemini 3.1 Pro Preview", score: 57, type: "proprietary" },
+        { name: "GPT-5.4 (xhigh)", score: 57, type: "proprietary" },
+        { name: "GPT-5.3 Codex", score: 54, type: "proprietary" },
+        { name: "Claude Opus 4.6", score: 53, type: "proprietary" },
+        { name: "Claude Sonnet 4.6", score: 52, type: "proprietary" },
+        { name: "GLM-5", score: 50, type: "open" },
+      ]},
+      { date: "2026-04-18", ver: "v4.0.4", data: [
+        { name: "Claude Opus 4.7", score: 57, type: "proprietary" },
+        { name: "Gemini 3.1 Pro Preview", score: 57, type: "proprietary" },
+        { name: "GPT-5.4 (xhigh)", score: 57, type: "proprietary" },
+        { name: "GPT-5.3 Codex", score: 54, type: "proprietary" },
+        { name: "Claude Opus 4.6", score: 53, type: "proprietary" },
+        { name: "GLM-5.1", score: 51, type: "open" },
+        { name: "GLM-5", score: 50, type: "open" },
+        { name: "MiniMax-M2.7", score: 50, type: "proprietary" },
+      ]},
+      { date: "2026-07-13", ver: "v4.1", data: [
+        { name: "Claude Fable 5", score: 60.0, type: "proprietary" },
+        { name: "GPT-5.6 Sol", score: 58.9, type: "proprietary" },
+        { name: "Claude Opus 4.8", score: 55.7, type: "proprietary" },
+        { name: "GPT-5.6 Terra", score: 55.0, type: "proprietary" },
+        { name: "GPT-5.5", score: 54.8, type: "proprietary" },
+        { name: "Grok 4.5", score: 53.8, type: "proprietary" },
+        { name: "Claude Opus 4.7", score: 53.5, type: "proprietary" },
+        { name: "Claude Sonnet 5", score: 53.4, type: "proprietary" },
+        { name: "GPT-5.4", score: 51.4, type: "proprietary" },
+        { name: "GPT-5.6 Luna", score: 51.2, type: "proprietary" },
+        { name: "GLM-5.2", score: 51.1, type: "open" },
+        { name: "Gemini 3.5 Flash", score: 50.2, type: "proprietary" },
+        { name: "Gemini 3.1 Pro", score: 46.5, type: "proprietary" },
+        { name: "Qwen3.7 Max", score: 46.0, type: "proprietary" },
+        { name: "MiniMax M3", score: 44.4, type: "open" },
+        { name: "GPT-5.3 Codex", score: 44.3, type: "proprietary" },
+        { name: "DeepSeek V4 Pro", score: 44.3, type: "open" },
+        { name: "Kimi K2.6", score: 44.2, type: "open" },
+        { name: "Claude Opus 4.6", score: 43.7, type: "proprietary" },
+        { name: "Muse Spark 1.1", score: 43.1, type: "proprietary" },
+      ]},
     ];
-    const MAX = 64;
-    let built = false, tweens = [];
+    let cur = SNAPSHOTS[SNAPSHOTS.length - 1];
+    let tweens = [];
     const kill = () => { tweens.forEach((t) => t && t.kill && t.kill()); tweens = []; };
+    // 선택 날짜 시점에 유효했던 최신 스냅샷 (date ≤ 선택일 중 가장 최근)
+    function snapshotFor(dateStr) {
+      let s = SNAPSHOTS[0];
+      for (const sn of SNAPSHOTS) if (sn.date <= dateStr) s = sn;
+      return s;
+    }
     function build() {
-      if (built) return; built = true;
       chart.innerHTML = "";
-      DATA.forEach((m) => {
+      cur.data.forEach((m) => {
         const b = document.createElement("div");
         b.className = "ob-b"; b.dataset.type = m.type; b.dataset.score = m.score;
         b.innerHTML = `<span class="ob-b-score">0</span><div class="ob-b-fill"></div><span class="ob-b-name">${m.name}</span>`;
         chart.appendChild(b);
       });
+      if (snapLabel) snapLabel.textContent = `${cur.ver} · ${cur.date} 스냅샷 · ${cur.data.length}개 모델`;
     }
     function draw(instant) {
+      const MAX = Math.max(...cur.data.map((m) => m.score)) * 1.07; // 스냅샷별 스케일 (버전 간 만점 상이)
       $$(".ob-b", chart).forEach((b, k) => {
         const score = +b.dataset.score;
         const h = (score / MAX) * 100;
@@ -184,9 +214,18 @@
         tweens.push(gsap.to(st, { v: score, duration: 0.9, delay: k * 0.03, ease: "power2.out", onUpdate: () => (num.textContent = st.v.toFixed(1)) }));
       });
     }
+    // 달력 상호작용: 덱 키보드 내비와 충돌 방지 + 날짜 변경 시 해당 시점 스냅샷으로 재구성
+    if (pick) {
+      pick.addEventListener("keydown", (e) => e.stopPropagation());
+      pick.addEventListener("change", () => {
+        const sn = snapshotFor(pick.value || cur.date);
+        if (sn === cur) return;
+        cur = sn; kill(); build(); draw(false);
+      });
+    }
     S["open-weight-benchmark"] = {
       el, steps: 1,
-      enter() { build(); kill(); draw(false); },
+      enter() { kill(); build(); draw(false); },
       leave() { kill(); },
       setStep() {},
     };

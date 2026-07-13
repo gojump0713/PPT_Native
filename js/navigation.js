@@ -192,6 +192,8 @@
   let numBuffer = "";
   window.addEventListener("keydown", (e) => {
     if (document.documentElement.classList.contains("gated")) return;
+    // 입력 요소에 포커스 중이면 덱 내비 무시 (P16 달력 등)
+    if (e.target && e.target.matches && e.target.matches("input, select, textarea")) return;
     // Overview가 열려 있으면 우선 처리
     if (window.OVERVIEW.isOpen && window.OVERVIEW.key(e)) return;
 
@@ -244,7 +246,7 @@
 
   /* ── 클릭 = 다음 스텝 (인터랙티브 요소 제외) ── */
   document.getElementById("stage").addEventListener("click", (e) => {
-    if (e.target.closest("button, a, .s03-card, .s04-card, .s05-node, .chip, .s06-module, .s06-track, .s02-stage")) return;
+    if (e.target.closest("button, a, input, label, .ob-date, .s03-card, .s04-card, .s05-node, .chip, .s06-module, .s06-track, .s02-stage")) return;
     DECK.next();
   });
 

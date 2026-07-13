@@ -1,19 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Native Campus — Interactive Presentation</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%234f7cff'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300e5ff'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="css/reset.css?v=10">
-<link rel="stylesheet" href="css/tokens.css?v=10">
-<link rel="stylesheet" href="css/layout.css?v=10">
-<link rel="stylesheet" href="css/components.css?v=10">
-<link rel="stylesheet" href="css/animations.css?v=10">
-<link rel="stylesheet" href="css/components2.css?v=10">
-<link rel="stylesheet" href="css/components3.css?v=10">
-<link rel="stylesheet" href="css/components5.css?v=10">
-<link rel="stylesheet" href="css/fallback.css?v=10">
+<link rel="stylesheet" href="css/reset.css?v=11">
+<link rel="stylesheet" href="css/tokens.css?v=11">
+<link rel="stylesheet" href="css/layout.css?v=11">
+<link rel="stylesheet" href="css/components.css?v=11">
+<link rel="stylesheet" href="css/animations.css?v=11">
+<link rel="stylesheet" href="css/components2.css?v=11">
+<link rel="stylesheet" href="css/components3.css?v=11">
+<link rel="stylesheet" href="css/components5.css?v=11">
+<link rel="stylesheet" href="css/fallback.css?v=11">
 </head>
 <body>
 
@@ -593,17 +593,23 @@
         <div class="ob-card-head">
           <div class="ob-card-ttl">
             <h3>Artificial Analysis Intelligence Index <span>by Open Weights / Proprietary</span></h3>
-            <p>v4.1 · GDPval-AA v2 · τ³-Banking · Terminal-Bench v2.1 · SciCode · Humanity's Last Exam · GPQA Diamond · CritPt · AA-Omniscience · AA-LCR</p>
+            <p>GDPval-AA v2 · τ³-Banking · Terminal-Bench v2.1 · SciCode · Humanity's Last Exam · GPQA Diamond · CritPt · AA-Omniscience · AA-LCR</p>
           </div>
-          <div class="ob-legend">
-            <span class="ob-lg ob-lg-prop">Proprietary</span>
-            <span class="ob-lg ob-lg-open">Open Weights</span>
+          <div class="ob-head-right">
+            <div class="ob-date">
+              <label for="ob-datepick">기준일</label>
+              <input type="date" id="ob-datepick" min="2026-03-31" max="2026-07-13" value="2026-07-13" aria-label="벤치마크 기준일 선택 — 선택한 날짜 시점의 스냅샷 표시">
+            </div>
+            <div class="ob-legend">
+              <span class="ob-lg ob-lg-prop">Proprietary</span>
+              <span class="ob-lg ob-lg-open">Open Weights</span>
+            </div>
           </div>
         </div>
         <div class="ob-chart" role="img" aria-label="Artificial Analysis Intelligence Index — 모델별 지능 지수 막대 그래프 (Open Weights / Proprietary)"></div>
         <div class="ob-wordmark">Artificial Analysis</div>
       </div>
-      <p class="ob-note">Source: <a class="ob-src-link" href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">https://artificialanalysis.ai/models</a> · Intelligence Index v4.1 (2026-07 스냅샷) · 점수는 iStation이 임의 수정하지 않습니다</p>
+      <p class="ob-note">Source: <a class="ob-src-link" href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">https://artificialanalysis.ai/models</a> · Intelligence Index <span id="ob-snap-label">v4.1 · 2026-07-13 스냅샷</span> · 점수는 iStation이 임의 수정하지 않습니다</p>
     </section>
 
     <!-- ── P4 · iStation 계층적 다중 AI 체계 (OIGP 구조도 · 자체 렌더) ── -->
@@ -961,20 +967,20 @@
 <!-- 커스텀 커서 글로우 -->
 <div id="cursor-glow" aria-hidden="true"></div>
 
-<script src="js/vendor/gsap.min.js?v=10"></script>
-<script src="js/vendor/lenis.min.js?v=10"></script>
-<script src="js/config.js?v=10"></script>
-<script src="js/content.js?v=10"></script>
-<script src="js/env-gate.js?v=10"></script>
-<script src="js/performance.js?v=10"></script>
-<script src="js/particles.js?v=10"></script>
-<script src="js/scenes.js?v=10"></script>
-<script src="js/scenes2.js?v=10"></script>
-<script src="js/scenes3.js?v=10"></script>
-<script src="js/scenes5.js?v=10"></script>
-<script src="js/overview.js?v=10"></script>
-<script src="js/navigation.js?v=10"></script>
-<script src="js/speaker-notes.js?v=10"></script>
-<script src="js/main.js?v=10"></script>
+<script src="js/vendor/gsap.min.js?v=11"></script>
+<script src="js/vendor/lenis.min.js?v=11"></script>
+<script src="js/config.js?v=11"></script>
+<script src="js/content.js?v=11"></script>
+<script src="js/env-gate.js?v=11"></script>
+<script src="js/performance.js?v=11"></script>
+<script src="js/particles.js?v=11"></script>
+<script src="js/scenes.js?v=11"></script>
+<script src="js/scenes2.js?v=11"></script>
+<script src="js/scenes3.js?v=11"></script>
+<script src="js/scenes5.js?v=11"></script>
+<script src="js/overview.js?v=11"></script>
+<script src="js/navigation.js?v=11"></script>
+<script src="js/speaker-notes.js?v=11"></script>
+<script src="js/main.js?v=11"></script>
 </body>
 </html>
