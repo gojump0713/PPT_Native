@@ -5,15 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Native Campus — Interactive Presentation</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%234f7cff'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300e5ff'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="css/reset.css?v=11">
-<link rel="stylesheet" href="css/tokens.css?v=11">
-<link rel="stylesheet" href="css/layout.css?v=11">
-<link rel="stylesheet" href="css/components.css?v=11">
-<link rel="stylesheet" href="css/animations.css?v=11">
-<link rel="stylesheet" href="css/components2.css?v=11">
-<link rel="stylesheet" href="css/components3.css?v=11">
-<link rel="stylesheet" href="css/components5.css?v=11">
-<link rel="stylesheet" href="css/fallback.css?v=11">
+<link rel="stylesheet" href="css/reset.css?v=12">
+<link rel="stylesheet" href="css/tokens.css?v=12">
+<link rel="stylesheet" href="css/layout.css?v=12">
+<link rel="stylesheet" href="css/components.css?v=12">
+<link rel="stylesheet" href="css/animations.css?v=12">
+<link rel="stylesheet" href="css/components2.css?v=12">
+<link rel="stylesheet" href="css/components3.css?v=12">
+<link rel="stylesheet" href="css/components5.css?v=12">
+<link rel="stylesheet" href="css/components6.css?v=12">
+<link rel="stylesheet" href="css/fallback.css?v=12">
 </head>
 <body>
 
@@ -845,8 +846,353 @@
       </video>
     </section>
 
+    <!-- ═══════════════ 06 덱 · Colab vs Tstation (CL1~CL8 · Tstation UI설계 작업지시서) ═══════════════ -->
+
+    <!-- ── CL1 · 문제 제기 및 핵심 한계 요약 ── -->
+    <section class="slide cl6" id="cl-intro" data-slide="26" data-section="Colab vs Tstation" data-title="Google Colab, 대학 정규수업에도 충분할까요?" data-steps="3">
+      <div class="cl6-idx">01 / COLAB VS TSTATION</div>
+      <h2 class="q1-title">Google Colab, <span class="hl">대학 정규수업에도 충분할까요?</span></h2>
+      <p class="q1-sub">설치 없이 빠르게 시작할 수 있지만, 대학 AI 교육에는 <em>안정적인 GPU와 수업 운영체계</em>가 필요합니다.</p>
+      <div class="q1-panels">
+        <div class="q1-panel q1-colab">
+          <h3><i>⚡</i>Google Colab의 장점</h3>
+          <ul>
+            <li>별도 설치 없이 사용</li>
+            <li>브라우저 기반 Python 실습</li>
+            <li>Jupyter Notebook 사용</li>
+            <li>개인·단기 실습에 편리</li>
+          </ul>
+        </div>
+        <div class="q1-vs">+</div>
+        <div class="q1-panel q1-univ">
+          <h3><i>🎓</i>대학 정규수업에 필요한 조건</h3>
+          <ul>
+            <li>모든 학생에게 동일한 실습환경</li>
+            <li>수업시간 동안 안정적인 GPU 제공</li>
+            <li>학생 환경과 데이터 지속 유지</li>
+            <li>교수자의 수업·과제 관리</li>
+            <li>팀 프로젝트 공동 개발환경</li>
+            <li>대학 내부 GPU 활용</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q1-cards">
+        <button class="q1-card" data-goto="cl-runtime" type="button">
+          <b>1</b><i>Runtime Reset</i><span>실행환경 종료 및 초기화 가능성</span>
+          <em>수업 반복 · 진도 지연으로 이어집니다</em>
+        </button>
+        <button class="q1-card" data-goto="cl-data" type="button">
+          <b>2</b><i>Data Access</i><span>외부 Drive와 네트워크 의존</span>
+          <em>학생별 실습 시작시간이 벌어집니다</em>
+        </button>
+        <button class="q1-card" data-goto="cl-collab" type="button">
+          <b>3</b><i>Collaboration</i><span>장기 팀 프로젝트 운영 한계</span>
+          <em>캡스톤 통합 단계에서 오류가 드러납니다</em>
+        </button>
+        <button class="q1-card" data-goto="cl-gpu" type="button">
+          <b>4</b><i>Campus GPU</i><span>대학 내부 GPU 통합 활용 어려움</span>
+          <em>보유한 GPU가 수업과 연결되지 않습니다</em>
+        </button>
+        <button class="q1-card" data-goto="cl-monitor" type="button">
+          <b>5</b><i>Student Monitoring</i><span>학생 진행 상황 통합관리 어려움</span>
+          <em>교수자가 여러 화면을 반복 확인합니다</em>
+        </button>
+      </div>
+      <p class="q1-hint">카드를 클릭하면 해당 상세 페이지로 이동합니다 · hover 시 교육 현장 영향 표시</p>
+    </section>
+
+    <!-- ── CL2 · 런타임 종료와 비영속 환경 ── -->
+    <section class="slide cl6" id="cl-runtime" data-slide="27" data-section="Colab vs Tstation" data-title="런타임 종료와 비영속 환경" data-steps="3">
+      <div class="cl6-idx">02 / RUNTIME RESET</div>
+      <h2 class="rt-title">실습환경이 유지되지 않으면 <span class="hl-warn">수업은 반복되고 학습은 끊깁니다</span></h2>
+      <p class="rt-sub">무료 Colab은 사용 조건과 가용 자원에 따라 최대 런타임과 유휴 종료 제한이 적용될 수 있습니다.</p>
+      <div class="rt-lane">
+        <div class="rt-nodes">
+          <div class="rt-node" data-n="0"><i>🔗</i><b>수업 접속</b></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node" data-n="1"><i>📦</i><b>라이브러리 설치</b></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node" data-n="2"><i>🔌</i><b>Drive 연결</b></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node" data-n="3"><i>⬇</i><b>데이터 다운로드</b></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node" data-n="4"><i>🧠</i><b>AI 모델 로딩</b></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node rt-node-train" data-n="5"><i>⚙</i><b>모델 학습</b><u class="rt-prog"><s></s><em>0%</em></u></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node rt-node-fail" data-n="6"><i>⛔</i><b>런타임 종료</b></div>
+          <i class="rt-arw"></i>
+          <div class="rt-node rt-node-reset" data-n="7"><i>♻</i><b>환경 재구성</b></div>
+        </div>
+        <svg class="rt-loop" viewBox="0 0 1760 130" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <marker id="rtHead" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto">
+              <path d="M0,0 L9,4.5 L0,9 Z" fill="#ff9f43"/>
+            </marker>
+          </defs>
+          <path class="rt-loop-path" d="M 1660 8 V 92 H 210 V 22" marker-end="url(#rtHead)"/>
+          <text class="rt-loop-lbl" x="880" y="118" text-anchor="middle">런타임 종료 후, 설치·연결·다운로드를 처음부터 다시</text>
+        </svg>
+        <button class="rt-replay" type="button">↻ 다시 재생</button>
+      </div>
+      <div class="rt-chips">
+        <span>패키지 재설정 가능성</span><span>AI 모델 재다운로드</span><span>Drive 재연결</span><span>임시 파일·실행상태 손실</span><span>장시간 학습 제약</span><span>학생별 복구시간 차이</span>
+      </div>
+      <div class="rt-impacts">
+        <b>교육 현장 영향</b>
+        <span>수업 진도 지연</span><span>실습시간 감소</span><span>교수자 오류 대응 증가</span><span>학생별 환경 차이</span><span>장기 프로젝트 연속성 저하</span>
+      </div>
+      <p class="rt-conclusion">그래서 — Tstation은 학생별 개발환경과 데이터를 <em>다음 접속에도 그대로 유지</em>합니다</p>
+    </section>
+
+    <!-- ── CL3 · 데이터 접근 안정성 ── -->
+    <section class="slide cl6" id="cl-data" data-slide="28" data-section="Colab vs Tstation" data-title="데이터 접근 안정성" data-steps="3">
+      <div class="cl6-idx">03 / DATA ACCESS</div>
+      <h2 class="da-title">개인에게 열린 데이터보다, <span class="hl">수업 전체에 안정적으로 제공되는 데이터</span>가 중요합니다</h2>
+      <div class="da-stage">
+        <svg class="da-links" viewBox="0 0 1150 660" aria-hidden="true"></svg>
+        <div class="da-dots" aria-hidden="true"></div>
+        <div class="da-hub">
+          <i>🗂</i><b>외부 데이터 저장소</b><span>Google Drive · 외부 저장공간<br>교수자 데이터셋 · 대용량 학습데이터</span>
+          <u class="da-load"><s></s></u><em class="da-load-lbl">동시 접근 부하 —</em>
+        </div>
+        <div class="da-count">
+          <button class="da-btn on" data-n="30" type="button">학생 30명</button>
+          <button class="da-btn" data-n="60" type="button">학생 60명</button>
+          <button class="da-btn" data-n="100" type="button">학생 100명</button>
+        </div>
+        <div class="da-legend">
+          <span class="da-lg-ok">정상 접근</span><span class="da-lg-delay">로딩 지연 · 권한/경로 오류</span><span class="da-lg-fail">다운로드 실패</span>
+        </div>
+      </div>
+      <aside class="da-side">
+        <h3>수업에서 겹치는 변수</h3>
+        <ul>
+          <li>학생별 Google 계정 연결 필요</li>
+          <li>공유 권한 관리</li>
+          <li>파일경로 차이 · 버전 혼선</li>
+          <li>대용량 파일 입출력 편차</li>
+          <li>공유 데이터 동시 접근 부하</li>
+          <li>외부 네트워크 상태의 영향</li>
+          <li>민감·연구 데이터의 외부 저장 정책 검토</li>
+        </ul>
+      </aside>
+      <div class="da-impacts">
+        <b>교육 현장 영향</b>
+        <span>실습 시작시간 차이</span><span>일부 학생 데이터 접근 실패</span><span>권한·경로 오류 대응</span><span>대용량 실습 운영 부담</span><span>외부 서비스 장애 시 수업 영향</span>
+      </div>
+      <p class="da-conclusion">그래서 — Tstation은 <em>대학 내부 저장공간</em>에서 수업 단위로 데이터를 제공합니다</p>
+    </section>
+
+    <!-- ── CL4 · 협업 및 장기 프로젝트 운영 한계 ── -->
+    <section class="slide cl6" id="cl-collab" data-slide="29" data-section="Colab vs Tstation" data-title="협업 및 장기 프로젝트 운영 한계" data-steps="4">
+      <div class="cl6-idx">04 / COLLABORATION</div>
+      <h2 class="co-title">공유 Notebook과 <span class="hl">공동 개발환경</span>은 다릅니다</h2>
+      <p class="co-sub">캡스톤디자인에는 공유 파일이 아니라 <em>지속 가능한 공동 개발공간</em>이 필요합니다.</p>
+      <div class="co-team">
+        <div class="co-card" data-s="a">
+          <div class="co-role"><i>🧹</i><b>학생 A</b><span>데이터 전처리</span></div>
+          <ul class="co-env">
+            <li data-k="py">Python <em>3.9</em></li>
+            <li data-k="lib">pandas <em>1.5</em></li>
+            <li data-k="path">경로 <em>/content/drive/A</em></li>
+            <li data-k="run">런타임 <em class="co-ok">실행 중</em></li>
+            <li data-k="gpu">GPU <em class="co-no">미할당</em></li>
+          </ul>
+        </div>
+        <div class="co-card" data-s="b">
+          <div class="co-role"><i>🧠</i><b>학생 B</b><span>AI 모델 개발</span></div>
+          <ul class="co-env">
+            <li data-k="py">Python <em>3.11</em></li>
+            <li data-k="lib">torch <em>2.4</em></li>
+            <li data-k="path">경로 <em>/content/proj</em></li>
+            <li data-k="run">런타임 <em class="co-warn">종료됨</em></li>
+            <li data-k="gpu">GPU <em class="co-ok">T4 할당</em></li>
+          </ul>
+        </div>
+        <div class="co-card" data-s="c">
+          <div class="co-role"><i>🎨</i><b>학생 C</b><span>UI 개발</span></div>
+          <ul class="co-env">
+            <li data-k="py">Python <em>3.10</em></li>
+            <li data-k="lib">torch <em>2.1</em></li>
+            <li data-k="path">경로 <em>C:\dev\capstone</em></li>
+            <li data-k="run">런타임 <em class="co-ok">로컬 PC</em></li>
+            <li data-k="gpu">GPU <em class="co-no">미할당</em></li>
+          </ul>
+        </div>
+        <div class="co-card" data-s="d">
+          <div class="co-role"><i>🔌</i><b>학생 D</b><span>API·백엔드 개발</span></div>
+          <ul class="co-env">
+            <li data-k="py">Python <em>3.8</em></li>
+            <li data-k="lib">fastapi <em>0.95</em></li>
+            <li data-k="path">경로 <em>~/backend</em></li>
+            <li data-k="run">런타임 <em class="co-warn">유휴 종료</em></li>
+            <li data-k="gpu">GPU <em class="co-no">미할당</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="co-merge">
+        <i class="co-merge-ic">⚠</i>
+        <b>프로젝트 통합 시도</b>
+        <span>“내 PC에서는 실행됨” — 버전·경로·환경 불일치로 통합 오류</span>
+      </div>
+      <div class="co-tst">
+        <div class="co-tst-h">Tstation 팀 공동 개발공간</div>
+        <div class="co-tst-body">
+          <span>팀별 프로젝트 공간</span><span>동일한 표준 환경</span><span>Jupyter · VS Code</span><span>프로젝트별 GPU 장기 할당</span>
+        </div>
+      </div>
+      <p class="co-conclusion">Notebook 공유는 가능하지만, <em>실행환경은 학생마다 분리</em>되어 있습니다 — 팀에는 하나의 개발공간이 필요합니다</p>
+    </section>
+
+    <!-- ── CL5 · 대학 내부 GPU 활용 한계 ── -->
+    <section class="slide cl6" id="cl-gpu" data-slide="30" data-section="Colab vs Tstation" data-title="대학 내부 GPU 활용 한계" data-steps="3">
+      <div class="cl6-idx">05 / CAMPUS GPU</div>
+      <h2 class="gp-title">GPU가 없는 것이 아니라, <span class="hl-mint">대학형으로 운영할 플랫폼</span>이 부족합니다</h2>
+      <div class="gp-panel gp-old">
+        <h3>분산된 기존 구조</h3>
+        <div class="gp-scatter">
+          <div class="gp-srv" data-u="92"><i>🖥</i><b>컴퓨터공학과 GPU</b><em>과부하 92%</em></div>
+          <div class="gp-srv" data-u="8"><i>🖥</i><b>AI학과 GPU</b><em>유휴 8%</em></div>
+          <div class="gp-srv" data-u="15"><i>🖥</i><b>연구실 GPU</b><em>특정 연구실 집중</em></div>
+          <div class="gp-srv" data-u="4"><i>🖥</i><b>산학 프로젝트 GPU</b><em>유휴 4%</em></div>
+          <div class="gp-srv gp-srv-ext" data-u="0"><i>☁</i><b>외부 Google Colab</b><em>내부와 미연결</em></div>
+        </div>
+        <p class="gp-cap">서로 연결되지 않은 자원 · 유휴 GPU 현황 파악 어려움 · 고가 GPU 중복 구매 가능성</p>
+      </div>
+      <div class="gp-panel gp-new">
+        <h3>대학에 필요한 운영 구조</h3>
+        <div class="gp-pool"><i>⚡</i><b>중앙 GPU Pool</b><span class="gp-pool-cnt">0 GPU</span></div>
+        <div class="gp-sched">
+          <span class="gp-sched-h">📅 수업 시간표 기반 배분</span>
+          <div class="gp-row" data-r="0"><b>정규수업</b><u><s></s></u></div>
+          <div class="gp-row" data-r="1"><b>대학원 연구</b><u><s></s></u></div>
+          <div class="gp-row" data-r="2"><b>캡스톤디자인</b><u><s></s></u></div>
+          <div class="gp-row" data-r="3"><b>야간 모델 학습</b><u><s></s></u></div>
+          <div class="gp-row" data-r="4"><b>산학협력 프로젝트</b><u><s></s></u></div>
+          <span class="gp-note">수업 종료 시 GPU 자동 회수 → 연구실·야간 학습으로 재배정</span>
+        </div>
+      </div>
+      <p class="gp-key">대학 GPU는 소유하는 것보다, <em>수업과 연구에 효율적으로 배분</em>하는 것이 중요합니다</p>
+    </section>
+
+    <!-- ── CL6 · 학생 진행 현황 관리 한계 ── -->
+    <section class="slide cl6" id="cl-monitor" data-slide="31" data-section="Colab vs Tstation" data-title="학생 진행 현황 관리 한계" data-steps="3">
+      <div class="cl6-idx">06 / STUDENT MONITORING</div>
+      <h2 class="mo-title">수업은 Notebook을 배포하는 것이 아니라, <span class="hl">학생의 학습과정을 운영하는 것</span>입니다</h2>
+      <div class="mo-stage">
+        <svg class="mo-wires" viewBox="0 0 1170 640" aria-hidden="true"></svg>
+        <div class="mo-prof"><i>🧑‍🏫</i><b>교수자</b></div>
+        <div class="mo-qs">
+          <span style="--qx:60px;  --qy:80px">누가 수업에 접속했는가</span>
+          <span style="--qx:400px; --qy:36px">누가 실습을 시작했는가</span>
+          <span style="--qx:740px; --qy:80px">누가 모델을 정상 실행하는가</span>
+          <span style="--qx:36px;  --qy:250px">누가 오류로 중단되었는가</span>
+          <span style="--qx:760px; --qy:250px">누가 GPU를 사용하는가</span>
+          <span style="--qx:120px; --qy:430px">누가 과제를 제출했는가</span>
+          <span style="--qx:680px; --qy:430px">누가 진도를 못 따라오는가</span>
+        </div>
+        <div class="mo-sys">
+          <span style="--sx:920px;  --sy:60px">Google Colab</span>
+          <span style="--sx:1020px; --sy:150px">Google Drive</span>
+          <span style="--sx:950px;  --sy:240px">LMS</span>
+          <span style="--sx:1040px; --sy:330px">Google Classroom</span>
+          <span style="--sx:930px;  --sy:420px">이메일</span>
+          <span style="--sx:1030px; --sy:510px">메신저</span>
+          <span style="--sx:920px;  --sy:580px">과제 제출 시스템</span>
+        </div>
+      </div>
+      <aside class="mo-dash">
+        <div class="mo-dash-h">Tstation 교수자 대시보드 <em>미리보기</em></div>
+        <div class="mo-k"><span>수업 접속</span><b>42 / 45명</b><u><s style="--w:93%"></s></u></div>
+        <div class="mo-k"><span>실습 진행</span><b>38명</b><u><s style="--w:84%"></s></u></div>
+        <div class="mo-k mo-k-warn"><span>오류 중단</span><b>2명 — 즉시 식별</b><u><s style="--w:5%"></s></u></div>
+        <div class="mo-k"><span>GPU 사용</span><b>31명</b><u><s style="--w:69%"></s></u></div>
+        <div class="mo-k"><span>과제 제출</span><b>35 / 45명</b><u><s style="--w:78%"></s></u></div>
+        <em class="mo-dash-cap">※ 연출된 예시 화면입니다</em>
+      </aside>
+      <div class="mo-impacts">
+        <span>학생 정보가 여러 시스템에 분산</span><span>과제 제출은 별도 시스템</span><span>GPU 현황과 학습 현황 분리</span><span>오류 학생 즉시 식별 어려움</span><span>여러 화면 반복 확인</span>
+      </div>
+      <p class="mo-conclusion">그래서 — Tstation은 접속·실습·오류·GPU·과제를 <em>하나의 교수자 화면</em>으로 통합합니다</p>
+    </section>
+
+    <!-- ── CL7 · Tstation 해결 구조 및 비교 ── -->
+    <section class="slide cl6" id="cl-solution" data-slide="32" data-section="Colab vs Tstation" data-title="Tstation 해결 구조 및 비교" data-steps="3">
+      <div class="cl6-idx">07 / TSTATION ANSWER</div>
+      <h2 class="sv-title">개인 실습도구를 넘어, <span class="hl-mint">대학이 직접 운영하는 AI 교육 플랫폼</span></h2>
+      <div class="sv-probs">
+        <button class="sv-prob" data-link="0" type="button">1 Runtime Reset</button>
+        <button class="sv-prob" data-link="1" type="button">2 Data Access</button>
+        <button class="sv-prob" data-link="2" type="button">3 Collaboration</button>
+        <button class="sv-prob" data-link="3" type="button">4 Campus GPU</button>
+        <button class="sv-prob" data-link="4" type="button">5 Monitoring</button>
+      </div>
+      <div class="sv-left">
+        <div class="sv-core"><b>Tstation</b><span>대학형 AI 교육 플랫폼</span></div>
+        <div class="sv-fns">
+          <div class="sv-fn" data-f="0"><b>① 시간표 기반 GPU 자동 할당</b><span>수업 시작 시 학생에게 제공 · 종료 시 자동 회수</span><em class="sv-fn-badge"></em></div>
+          <div class="sv-fn" data-f="1"><b>② 사용자 환경 지속 유지</b><span>학생별 개발환경 · 프로젝트 데이터 · 다음 접속 시 그대로</span></div>
+          <div class="sv-fn" data-f="2"><b>③ 팀 공동 개발공간</b><span>팀별 프로젝트 공간 · Jupyter/VS Code · 팀 GPU 장기 할당</span></div>
+          <div class="sv-fn" data-f="3"><b>④ 대학 내부 GPU Pool</b><span>학과·연구실 GPU 통합 · 수업/연구/야간 재배분</span></div>
+          <div class="sv-fn" data-f="4"><b>⑤ 교수자 통합관리</b><span>접속·진행·GPU·과제 현황 · 수업환경 일괄 배포</span></div>
+        </div>
+        <div class="sv-class">
+          <button class="sv-class-btn sv-class-start" type="button">▶ 수업 시작</button>
+          <button class="sv-class-btn sv-class-end" type="button">■ 수업 종료</button>
+        </div>
+      </div>
+      <div class="sv-table">
+        <div class="sv-tr sv-th"><span>비교 항목</span><span>Google Colab</span><span class="sv-tst">Tstation</span></div>
+        <div class="sv-tr"><span>주요 목적</span><span>개인·단기 AI 실습</span><span class="sv-tst">대학 정규수업·연구</span></div>
+        <div class="sv-tr"><span>GPU 자원</span><span>가용성과 정책에 따라 변동</span><span class="sv-tst">대학 정책에 따라 계획 할당</span></div>
+        <div class="sv-tr"><span>실행환경</span><span>종료 후 재구성 가능성</span><span class="sv-tst">사용자 환경 지속 유지</span></div>
+        <div class="sv-tr"><span>데이터</span><span>외부 Drive 중심</span><span class="sv-tst">대학 내부 저장공간</span></div>
+        <div class="sv-tr"><span>팀 프로젝트</span><span>Notebook 공유 중심</span><span class="sv-tst">팀 공동 개발공간</span></div>
+        <div class="sv-tr"><span>대학 GPU</span><span>기본 환경과 통합 운영 어려움</span><span class="sv-tst">내부 GPU Pool 통합</span></div>
+        <div class="sv-tr"><span>수업 관리</span><span>여러 시스템 연계 필요</span><span class="sv-tst">교수자 통합 대시보드</span></div>
+        <div class="sv-tr"><span>GPU 운영</span><span>시간표 기반 배분 기능 부재</span><span class="sv-tst">자동 할당·회수·재배정</span></div>
+      </div>
+      <p class="sv-key">Google Colab의 편리한 사용 경험은 유지하고, <em>대학 수업에 필요한 운영·관리 기능</em>을 더합니다</p>
+    </section>
+
+    <!-- ── CL8 · 도입 효과 및 제안 마무리 ── -->
+    <section class="slide cl6" id="cl-effect" data-slide="33" data-section="Colab vs Tstation" data-title="도입 효과 및 제안 마무리" data-steps="3">
+      <div class="cl6-idx">08 / WHY TSTATION</div>
+      <h2 class="fx-title">Colab의 편리함을 넘어, <span class="hl">대학이 직접 운영하는 AI 교육 인프라</span>로</h2>
+      <div class="fx-cards">
+        <article class="fx-card" data-p="0">
+          <i>🧑‍🎓</i><h3>학생</h3>
+          <ul><li>동일한 AI 실습환경</li><li>안정적인 GPU 사용</li><li>프로젝트 환경 지속</li><li>팀 기반 캡스톤 수행</li></ul>
+        </article>
+        <article class="fx-card" data-p="1">
+          <i>🧑‍🏫</i><h3>교수자</h3>
+          <ul><li>표준 실습환경 일괄 배포</li><li>학생 진행 현황 확인</li><li>과제 제출·실습 관리</li><li>환경 오류 대응 부담 감소</li></ul>
+        </article>
+        <article class="fx-card" data-p="2">
+          <i>🛠</i><h3>전산조직</h3>
+          <ul><li>대학 GPU 중앙관리</li><li>GPU 사용률 가시화</li><li>수업·연구 간 자원 재배분</li><li>운영정책 표준화</li></ul>
+        </article>
+        <article class="fx-card" data-p="3">
+          <i>🏛</i><h3>대학 경영진</h3>
+          <ul><li>고가 GPU 투자 효율 향상</li><li>대학 AI 교육 경쟁력 확보</li><li>SW중심대학·AI대학원 대응</li><li>산학협력·AI 연구 확대</li></ul>
+        </article>
+      </div>
+      <div class="fx-keys">
+        <span>수업에는 <em>동일한 GPU 환경</em>을</span>
+        <span>연구에는 <em>유휴 GPU 자원</em>을</span>
+        <span>대학에는 <em>AI 인프라 투자 효율</em>을</span>
+      </div>
+      <div class="fx-cta">
+        <button class="fx-btn fx-btn-primary" data-goto="ts001" type="button">▶ Tstation 데모 보기</button>
+        <button class="fx-btn" data-goto="jeju-case" type="button">구축 사례 보기</button>
+        <a class="fx-btn" href="mailto:cd@tilon.com?subject=Tstation%20%EB%8C%80%ED%95%99%20%EB%8F%84%EC%9E%85%20%EC%83%81%EB%8B%B4">대학 도입 상담</a>
+        <a class="fx-btn" href="mailto:cd@tilon.com?subject=Tstation%20%EA%B5%AC%EC%B6%95%20%EC%A0%9C%EC%95%88%EC%84%9C%20%EC%9A%94%EC%B2%AD">구축 제안서 요청</a>
+      </div>
+    </section>
+
     <!-- ── T04 · 챕터5 타이틀: CAS ── -->
-    <section class="slide slide-chapter" id="cas" data-slide="26" data-section="CAS" data-title="CAS — All-in-One 교육 플랫폼" data-steps="2">
+    <section class="slide slide-chapter" id="cas" data-slide="34" data-section="CAS" data-title="CAS — All-in-One 교육 플랫폼" data-steps="2">
       <div class="chv-media">
         <video class="chv-video" muted loop playsinline preload="none" data-video="cas"></video>
         <div class="chv-poster"></div>
@@ -866,7 +1212,7 @@
     </section>
 
     <!-- ── T05 · CAS 통합 학습관리 (Hub + Tabs) ── -->
-    <section class="slide" id="cas-platform" data-slide="27" data-section="CAS" data-title="CAS 통합 학습관리" data-steps="4">
+    <section class="slide" id="cas-platform" data-slide="35" data-section="CAS" data-title="CAS 통합 학습관리" data-steps="4">
       <header class="c5-head">
         <h2 class="slide-title">CAS, 강의·학습·과제·실습이 통합된 <span class="hl">All-in-One 교육 플랫폼</span></h2>
         <p class="c5-lead">수업별 온라인 그룹 · 강의부터 평가까지 <em>하나의 플랫폼</em>에서 운영하는 통합 학습관리 솔루션</p>
@@ -917,21 +1263,21 @@
     </section>
 
     <!-- ── CBT001 · CAS 시연 영상 (전체화면 자동재생) ── -->
-    <section class="slide slide-fsv" id="cbt001" data-slide="28" data-section="CAS" data-title="CBT 시연 ①" data-steps="1">
+    <section class="slide slide-fsv" id="cbt001" data-slide="36" data-section="CAS" data-title="CBT 시연 ①" data-steps="1">
       <video class="fsv-video" muted loop playsinline preload="none">
         <source src="assets/videos/CBT001.mp4" type="video/mp4">
       </video>
     </section>
 
     <!-- ── CBT002 · CAS 시연 영상 (전체화면 자동재생) ── -->
-    <section class="slide slide-fsv" id="cbt002" data-slide="29" data-section="CAS" data-title="CBT 시연 ②" data-steps="1">
+    <section class="slide slide-fsv" id="cbt002" data-slide="37" data-section="CAS" data-title="CBT 시연 ②" data-steps="1">
       <video class="fsv-video" muted loop playsinline preload="none">
         <source src="assets/videos/CBT002.mp4" type="video/mp4">
       </video>
     </section>
 
     <!-- ── BRAND · TILON 브랜드 필름 (전체화면 자동재생 + 엔딩 카피) ── -->
-    <section class="slide slide-fsv" id="brand-film" data-slide="30" data-section="Brand" data-title="TILON 브랜드 필름 — Connected by TILON" data-steps="1">
+    <section class="slide slide-fsv" id="brand-film" data-slide="38" data-section="Brand" data-title="TILON 브랜드 필름 — Connected by TILON" data-steps="1">
       <video class="fsv-video" muted loop playsinline preload="none">
         <source src="assets/videos/brand-city.mp4" type="video/mp4">
       </video>
@@ -967,20 +1313,21 @@
 <!-- 커스텀 커서 글로우 -->
 <div id="cursor-glow" aria-hidden="true"></div>
 
-<script src="js/vendor/gsap.min.js?v=11"></script>
-<script src="js/vendor/lenis.min.js?v=11"></script>
-<script src="js/config.js?v=11"></script>
-<script src="js/content.js?v=11"></script>
-<script src="js/env-gate.js?v=11"></script>
-<script src="js/performance.js?v=11"></script>
-<script src="js/particles.js?v=11"></script>
-<script src="js/scenes.js?v=11"></script>
-<script src="js/scenes2.js?v=11"></script>
-<script src="js/scenes3.js?v=11"></script>
-<script src="js/scenes5.js?v=11"></script>
-<script src="js/overview.js?v=11"></script>
-<script src="js/navigation.js?v=11"></script>
-<script src="js/speaker-notes.js?v=11"></script>
-<script src="js/main.js?v=11"></script>
+<script src="js/vendor/gsap.min.js?v=12"></script>
+<script src="js/vendor/lenis.min.js?v=12"></script>
+<script src="js/config.js?v=12"></script>
+<script src="js/content.js?v=12"></script>
+<script src="js/env-gate.js?v=12"></script>
+<script src="js/performance.js?v=12"></script>
+<script src="js/particles.js?v=12"></script>
+<script src="js/scenes.js?v=12"></script>
+<script src="js/scenes2.js?v=12"></script>
+<script src="js/scenes3.js?v=12"></script>
+<script src="js/scenes5.js?v=12"></script>
+<script src="js/scenes6.js?v=12"></script>
+<script src="js/overview.js?v=12"></script>
+<script src="js/navigation.js?v=12"></script>
+<script src="js/speaker-notes.js?v=12"></script>
+<script src="js/main.js?v=12"></script>
 </body>
 </html>
