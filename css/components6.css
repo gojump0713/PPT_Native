@@ -444,24 +444,9 @@
 .fx-card li { position: relative; font-size: 18.5px; font-weight: 600; color: rgba(255, 255, 255, 0.9); padding-left: 22px; }
 .fx-card li::before { content: "·"; position: absolute; left: 4px; color: var(--tst-mint); font-weight: 800; }
 .fx-keys {
-  position: absolute; top: 618px; left: 0; right: 0;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  position: absolute; top: 668px; left: 0; right: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
 }
 .fx-keys span { font-size: 30px; font-weight: 800; opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fx-keys span.on { opacity: 1; transform: none; }
 .fx-keys em { font-style: normal; background: linear-gradient(92deg, var(--tst), var(--tst-mint)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.fx-cta {
-  position: absolute; bottom: 86px; left: 0; right: 0;
-  display: flex; gap: 16px; justify-content: center;
-  opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s ease;
-}
-.fx-cta.on { opacity: 1; transform: none; }
-.fx-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 19px; font-weight: 800; color: #fff; cursor: pointer; text-decoration: none;
-  padding: 14px 30px; border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.22);
-  transition: transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.fx-btn:hover { transform: translateY(-3px); border-color: rgba(0, 180, 255, 0.6); box-shadow: 0 12px 34px rgba(0, 180, 255, 0.2); }
-.fx-btn-primary { color: #04121c; background: linear-gradient(92deg, var(--tst), var(--tst-mint)); border-color: transparent; box-shadow: 0 10px 30px rgba(0, 180, 255, 0.35); }

@@ -1,7 +1,7 @@
 /* config.js — 발표 설정 */
 window.CONFIG = {
   title: "AI Native Campus",
-  totalLabel: 38,
+  totalLabel: 37,
 
   // 모션 강도 (1 = 기본). reduced-motion·저사양 시 자동 무시
   motionScale: 1,
@@ -43,8 +43,20 @@ window.CONFIG = {
     "scheduling": [2600, 2600],             // 야간 전환 → (이어서) 결론 텍스트 자동
     "jeju-case": [2400, 7000, 1600],        // 인사 → 질의응답 데모 → 노드 연결 → 결론
     "closing": [1400, 1500, 1900],          // 헤드라인 → 기존방식 → 자체보유 → 정부무기+응집
+    /* 06 덱 · Colab vs Tstation — 별도 조작 없이 순차 빠른 자동 진행 */
+    "cl-intro": [900, 1000],                // Colab 장점 → 대학 요구 조건 → 문제 카드 5장
+    "cl-runtime": [4200, 1300],             // 타임라인 데모(종료→루프백) → 현장 영향 → 결론
+    "cl-data": [1300, 3400],                // 구조(30명) → 60→100 확대 시연 → 영향+결론
+    "cl-collab": [1100, 1100, 1100],        // 카드 4장 → 환경 차이 → 통합 충돌 → Tstation 공간
+    "cl-gpu": [1200, 1700],                 // 분산 구조 → Pool 통합 → 시간표 배분+핵심 문구
+    "cl-monitor": [1500, 1700],             // 질문 카드 → 분산 시스템 얽힘 → 대시보드+결론
+    "cl-solution": [1700, 1500],            // 해결 구조 5기능 → 비교표 → 핵심 카피
+    "cl-effect": [1700],                    // 수혜 대상 4카드 → 핵심 문구 3
   },
 
   // 클릭/화살표 한 번에 스텝을 건너뛰고 곧바로 다음 슬라이드로 (autoplay로 내용은 자동 노출)
-  singleAdvance: ["istation-features", "jeju-case", "closing"],
+  singleAdvance: [
+    "istation-features", "jeju-case", "closing",
+    "cl-intro", "cl-runtime", "cl-data", "cl-collab", "cl-gpu", "cl-monitor", "cl-solution", "cl-effect",
+  ],
 };

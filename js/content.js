@@ -266,7 +266,7 @@ window.CONTENT = [
     title: "도입 효과 및 제안 마무리",
     transition: "zoom",
     art: "radial-gradient(circle at 50% 40%, rgba(0,180,255,0.35), rgba(0,229,180,0.16) 45%, transparent 65%)",
-    notes: "수혜 대상별 효과: 학생→교수자→전산조직→경영진 순차 등장. 스텝②에서 핵심 문구 3개(수업=동일 GPU 환경 / 연구=유휴 GPU / 대학=투자 효율), 스텝③ CTA — 데모 보기(ts001 이동)·구축 사례(제주대 이동)·도입 상담/제안서(메일).",
+    notes: "수혜 대상별 효과: 학생→교수자→전산조직→경영진 순차 등장 → 핵심 문구 3개(수업=동일 GPU 환경 / 연구=유휴 GPU / 대학=투자 효율)까지 자동 진행. Colab vs Tstation 섹션의 마무리 — 다음 입력으로 CAS 챕터 진입.",
   },
   {
     id: "cas",
@@ -298,14 +298,6 @@ window.CONTENT = [
     title: "CBT 시연 ②",
     transition: "fade",
     art: "radial-gradient(circle at 50% 50%, rgba(124,92,255,0.4), transparent 60%)",
-    notes: "CBT 시연 영상(CBT002) 전체화면 자동재생. 진입 시 처음부터 자동 재생·루프.",
-  },
-  {
-    id: "brand-film",
-    section: "Brand",
-    title: "TILON 브랜드 필름 — Connected by TILON",
-    transition: "fade",
-    art: "radial-gradient(circle at 50% 45%, rgba(79,124,255,0.42), rgba(0,229,255,0.18) 45%, transparent 65%)",
-    notes: "TILON 브랜드 필름(AI 생성, 15초 루프) 전체화면 자동재생. FPV 드론이 미래 도시를 관통하며 Dstation~Vstation → TILON 타워 → Center 시리즈 순으로 BI 노출. 12초부터 엔딩 카피 'Beyond Workspace, Into AI-Native Infrastructure' 페이드인(루프 시 재동기화).",
+    notes: "CBT 시연 영상(CBT002) 전체화면 자동재생. 진입 시 처음부터 자동 재생·루프. 덱의 마지막 슬라이드 — 마지막 입력 시 Overview가 열려 Q&A 대응.",
   },
 ];

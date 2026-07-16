@@ -32,19 +32,6 @@
   S.cbt001 = fullscreenVideo("cbt001");
   S.cbt002 = fullscreenVideo("cbt002");
 
-  /* ══════ BRAND · TILON 브랜드 필름 (엔딩 카피 — 영상 12초부터, 루프 시 재동기화) ══════ */
-  (function () {
-    const scene = fullscreenVideo("brand-film");
-    const video = $(".fsv-video", scene.el);
-    const copy = $(".bf-copy", scene.el);
-    video.addEventListener("timeupdate", () => {
-      copy.classList.toggle("on", video.currentTime >= 11.5);
-    });
-    const leave = scene.leave;
-    scene.leave = () => { leave(); copy.classList.remove("on"); };
-    S["brand-film"] = scene;
-  })();
-
   /* ══════ T04 · CAS 챕터 타이틀 (+ 키워드 칩 5종 → 라인 연결) ══════ */
   (function () {
     const el = $("#cas");

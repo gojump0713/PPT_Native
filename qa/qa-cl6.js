@@ -66,23 +66,22 @@ const server = http.createServer((req, res) => {
       if (id === "cl-gpu") { out.poolCnt = $(".gp-pool-cnt", el).textContent; out.bars = $$(".gp-row u s", el).filter((s) => parseFloat(s.style.width) > 0).length; out.key = vis($(".gp-key", el)); }
       if (id === "cl-monitor") { out.qsOn = $$(".mo-qs span.on", el).length; out.sysOn = $$(".mo-sys span.on", el).length; out.wires = $$(".mo-wires line", el).length; out.dashOn = $(".mo-dash", el).classList.contains("on"); }
       if (id === "cl-solution") { out.fnsOn = $$(".sv-fn.on", el).length; out.rowsOn = $$(".sv-tr.on", el).length; out.key = vis($(".sv-key", el)); }
-      if (id === "cl-effect") { out.cardsOn = $$(".fx-card.on", el).length; out.keysOn = $$(".fx-keys span.on", el).length; out.ctaOn = $(".fx-cta", el).classList.contains("on"); }
+      if (id === "cl-effect") { out.cardsOn = $$(".fx-card.on", el).length; out.keysOn = $$(".fx-keys span.on", el).length; }
       return out;
     }, id);
     await page.screenshot({ path: path.join(SHOT_DIR, `cl6-${id}.png`) });
   }
 
-  // 인터랙션 검증: CL1 카드 클릭 → 상세 이동 / CL8 데모 버튼 → ts001 이동
+  // 인터랙션 검증: CL1 카드 클릭 → 상세 이동
   await page.evaluate(() => window.DECK.goTo(window.CONTENT.findIndex((s) => s.id === "cl-intro"), { step: 2 }));
   await new Promise((r) => setTimeout(r, 2500));
   await page.click('.q1-card[data-goto="cl-data"]');
   await new Promise((r) => setTimeout(r, 1800));
   results.cardNav = await page.evaluate(() => window.CONTENT[window.DECK.current].id);
-  await page.evaluate(() => window.DECK.goTo(window.CONTENT.findIndex((s) => s.id === "cl-effect"), { step: 2 }));
-  await new Promise((r) => setTimeout(r, 2000));
-  await page.click(".fx-btn-primary");
-  await new Promise((r) => setTimeout(r, 1800));
-  results.ctaNav = await page.evaluate(() => window.CONTENT[window.DECK.current].id);
+  // 자동 진행 검증: cl-intro 진입(step 0) 후 대기 → autoplay로 최종 스텝 도달
+  await page.evaluate(() => window.DECK.goTo(window.CONTENT.findIndex((s) => s.id === "cl-intro"), { step: 0 }));
+  await new Promise((r) => setTimeout(r, 3600));
+  results.autoplayStep = await page.evaluate(() => window.DECK.step);
 
   console.log(JSON.stringify(results, null, 1));
   console.log("CONSOLE ERRORS:", errors.length ? "\n" + errors.join("\n") : "0건");

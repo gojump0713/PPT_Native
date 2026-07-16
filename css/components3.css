@@ -9,25 +9,6 @@
   background: #05070f;
 }
 
-/* ════════ BRAND · TILON 브랜드 필름 엔딩 카피 (영상 12초~ 페이드인) ════════ */
-.bf-copy {
-  position: absolute; left: 0; right: 0; bottom: 96px;
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  text-align: center; pointer-events: none;
-  opacity: 0; transform: translateY(18px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
-}
-.bf-copy.on { opacity: 1; transform: translateY(0); }
-.bf-copy-brand {
-  font-size: 30px; font-weight: 800; letter-spacing: 0.42em;
-  color: #fff; text-shadow: 0 0 24px rgba(79, 124, 255, 0.85);
-}
-.bf-copy-line {
-  font-size: 21px; font-weight: 500; letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75);
-}
-
 /* ════════ T02 · Instant Setup — IaC 변환 다이어그램 (scene-14 컨셉) ════════ */
 #instant-setup { padding: 0; }
 .t2-title { position: absolute; top: 84px; left: 80px; right: 80px; font-size: 58px; }

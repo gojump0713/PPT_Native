@@ -369,12 +369,11 @@
   (function () {
     const el = $("#cl-effect");
     const cards = $$(".fx-card", el), keys = $$(".fx-keys span", el);
-    const cta = $(".fx-cta", el);
     let tweens = [];
     const kill = () => { tweens.forEach((t) => t && t.kill && t.kill()); tweens = []; };
 
     S["cl-effect"] = {
-      el, steps: 3,
+      el, steps: 2,
       enter(s) { this.setStep(s, 1, true); },
       leave() { kill(); },
       setStep(i, dir, instant) {
@@ -392,7 +391,6 @@
             keys.forEach((s, k) => tweens.push(gsap.delayedCall(0.1 + k * 0.24, () => s.classList.add("on"))));
           } else keys.forEach((s) => s.classList.add("on"));
         } else keys.forEach((s) => s.classList.remove("on"));
-        cta.classList.toggle("on", i >= 2);
       },
     };
   })();
